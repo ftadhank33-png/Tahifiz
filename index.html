@@ -154,7 +154,8 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
   <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
   ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل العثماني المراجَع على مصحف المدينة.</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
   ${Q&&!P?'<small>لإظهار رقم صفحة المصحف حدّث بيانات النص: <button class="b" data-x="dl">تحديث</button></small>':""}
-  <small>الآيات مخفية: احفظ الآية ثم المس رقمها لتتحقق منها. 💡 يُظهر أول كلمتين، ✓ محفوظة، ⚠ ضعيفة وتحتاج مراجعة.</small>${rows}<small>نص القرآن: مشروع تنزيل (tanzil.net) عبر alquran.cloud، رسم عثماني.</small>`}
+  <small>للتحقق من الآيات ارجع إلى المصحف الورقي. النص من مشروع تنزيل (الرسم العثماني) وقد راجعه القائمون عليه على مصحف المدينة، وأرقام الصفحات بترقيم مصحف المدينة.</small>
+  <small>الآيات مخفية: احفظ الآية ثم المس رقمها لتتحقق منها. 💡 يُظهر أول كلمتين، ✓ محفوظة، ⚠ ضعيفة وتحتاج مراجعة.</small>${rows}`}
  if(t==="plan")return `<h2>خطة الحفظ</h2><div class="c" style="display:grid;gap:12px"><b>عدد الآيات الجديدة يوميًا</b><div class="opts">${[3,5,10,20].map(v=>`<button class="b ${S.plan===v?"on":""}" data-x="plan" data-v="${v}">${n(v)}</button>`).join("")}</div>
  <div>اليوم: ${n(st.td)} / ${n(S.plan)}</div>${bar(st.td/S.plan*100)}<div>${st.m?`بهذا المعدل تختم في <b>${fmt(st.fin)}</b> (متبقٍ ${n(st.rem)} آية).`:"علّم أول آية لتظهر تقديرات الختم."}</div></div>`;
  if(t==="rev"){const li=N.map((nm,i)=>st.ds[i+1]?`<div class="c row"><div><b class="gd" style="color:var(--hd)">سورة ${nm}</b><small>${n(st.ds[i+1])} آية مستحقة</small></div><div class="row"><button class="b" data-x="open" data-s="${i+1}">فتح</button><button class="b bp" data-x="rv" data-s="${i+1}">تمت المراجعة</button></div></div>`:"").join("");
@@ -169,7 +170,7 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  return `<div class="row"><button class="b" data-x="go" data-v="home">إنهاء</button><span>✓ ${n(z.ok)} • ✗ ${n(z.no)}</span></div>
  <div class="c" style="display:grid;gap:12px;text-align:center"><small>سورة ${N[qs-1]} — الآية ${n(qa)}${P?" — صفحة "+n(P[qs-1][qa-1]):""}</small>
  <div class="qt" style="border:0;margin:0;padding:0">${w3} …</div>
- ${z.show?`<div class="qt">${tx}</div><div class="row" style="justify-content:center;gap:12px"><button class="b bd" data-x="qno">أخطأت</button><button class="b bp" data-x="qok">أصبت</button></div>`:`<button class="b bp big" data-x="qshow">أظهر الآية</button>`}</div>`}
+ ${z.show?`<div class="qt">${tx}</div><div class="row" style="justify-content:center;gap:12px"><button class="b bd" data-x="qno">أخطأت</button><button class="b bp" data-x="qok">أصبت</button></div>`:`<button class="b bp big" data-x="qshow">أظهر الآية</button>`}</div><small>للتحقق من الآيات ارجع إلى المصحف الورقي. النص من مشروع تنزيل (الرسم العثماني) وقد راجعه القائمون عليه على مصحف المدينة، وأرقام الصفحات بترقيم مصحف المدينة.</small>`}
  if(t==="hal"){if(!DB.hq||DB.hq.d!==st.t)pickHal();const hs=DB.hq.s;
  return `<h2>حلقتنا</h2><small>تجتمع الأسرة على سورة واحدة، يراجعها كل فرد ثم يضغط "تمت" أمام اسمه.</small>
  <div class="c st"><small>سورة اليوم</small><b>${N[hs-1]}</b><div class="row" style="justify-content:center;gap:8px"><button class="b" data-x="hq2">سورة أخرى</button><button class="b" data-x="open" data-s="${hs}">فتحها</button></div></div>`
