@@ -98,7 +98,7 @@ let S=cur()?cur().d:def(),LK=cur()&&cur().pin?DB.cur:"";
 function save(){const j=JSON.stringify(DB);try{localStorage.setItem("qh_v3",j)}catch(e){mem=true}idbSet(j)}
 function sw(id){DB.cur=id;S=DB.ps[id].d;LK=DB.ps[id].pin?id:"";save()}
 function setDB(x){for(const k in x.ps){const q=x.ps[k];q.pin=q.pin?String(q.pin):"";q.n=String(q.n||"؟").slice(0,20);q.d=Object.assign(def(),q.d)}DB=x;S=cur().d;LK=cur().pin?DB.cur:""}
-let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,P=null,QZ=null,QS="",R={};
+let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,P=null,QZ=null,QS="",R={},AD=false;
 
 const cl=t=>String(t).replace(/\uFEFF/g,"").trim();
 async function dlQ(){QS="load";render(1);
@@ -115,6 +115,9 @@ function qgrade(ok){const r=S.r[QZ.k],t=ymd();if(r){if(ok){r.l=Math.min(r.l+1,5)
 function pickHal(){const any=Array(115).fill(0);Object.keys(DB.ps).forEach(id=>{const x=stats(DB.ps[id].d);for(let i=1;i<=114;i++)if(x.ps[i])any[i]++});
  let c=[];for(let i=1;i<=114;i++)if(any[i]>=2)c.push(i);if(!c.length)for(let i=1;i<=114;i++)if(any[i])c.push(i);if(!c.length)c=[1];
  let h;do{h=c[Math.floor(Math.random()*c.length)]}while(c.length>1&&DB.hq&&DB.hq.s===h);DB.hq={s:h,d:ymd()};save()}
+const can=()=>!DB.admin||AD;
+function gate(fn){if(can()){fn();return}M={ap:1,fn};render(1)}
+function snap(){const x=stats(S);return "BSN1:"+btoa(unescape(encodeURIComponent(JSON.stringify({id:DB.cur,n:cur().n,t:ymd(),m:x.m,c:x.c,due:x.due,w:x.w,done:x.done}))))}
 function bump(k=1){const t=ymd();S.act[t]=(S.act[t]||0)+k}
 function setA(s,a,st){const k=s+"_"+a,t=ymd(),o=S.r[k];
  if(st==="m"){S.r[k]={s:"m",d:o?o.d:t,l:o?o.l:0,n:o?o.n:add(t,1)};if(!o)bump()}
@@ -171,8 +174,13 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  return `<h2>حلقتنا</h2><small>تجتمع الأسرة على سورة واحدة، يراجعها كل فرد ثم يضغط "تمت" أمام اسمه.</small>
  <div class="c st"><small>سورة اليوم</small><b>${N[hs-1]}</b><div class="row" style="justify-content:center;gap:8px"><button class="b" data-x="hq2">سورة أخرى</button><button class="b" data-x="open" data-s="${hs}">فتحها</button></div></div>`
  +Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),pp=Math.round(x.ps[hs]/A[hs-1]*100);return `<div class="c" style="display:grid;gap:6px"><div class="row"><b>${esc(q.n)}</b><span class="gd">${n(pp)}٪</span></div>${bar(pp)}<div class="row"><small>${n(x.ds[hs])} آية مستحقة</small><button class="b bp" data-x="hq3" data-id="${id}">تمت المراجعة ✓</button></div></div>`}).join("")}
- if(t==="fam")return `<h2>أسرتي</h2><small>المس الاسم للانتقال إلى ملفه ومتابعة تقدمه.</small>`+Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),o=(x.m/TOT*100).toFixed(1);
- return `<div class="c" style="display:grid;gap:6px"><div class="row"><button class="b" data-x="sw" data-id="${id}"><b>${esc(q.n)}</b> ${id===DB.cur?"✓":""}${q.pin?"🔒":""}</button><span class="gd">${n(o)}٪</span></div>${bar(o)}<small>${n(x.m)} آية • 🔥 ${n(x.c)} أيام • ${n(x.due)} للمراجعة • ${n(x.w)} ضعيفة</small><div class="row" style="justify-content:flex-start;gap:8px"><button class="b" data-x="pin" data-id="${id}">🔒 رمز</button><button class="b" data-x="delp" data-id="${id}">حذف</button></div></div>`}).join("")+`<div class="c" style="display:grid;gap:8px"><b>إضافة فرد جديد</b><input class="q" id="nn" maxlength="20" placeholder="الاسم"><button class="b bp" data-x="addp">إضافة</button></div>`;
+ if(t==="fam"){const adm=can(),rm=Object.values(DB.rm||{});let tot=0;
+ const loc=Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),o=(x.m/TOT*100).toFixed(1);tot+=x.m;
+  return `<div class="c" style="display:grid;gap:6px"><div class="row"><button class="b" data-x="sw" data-id="${id}"><b>${esc(q.n)}</b> ${id===DB.cur?"✓":""}${q.pin?"🔒":""}</button><span class="gd">${n(o)}٪</span></div>${bar(o)}<small>${n(x.m)} آية • 🔥 ${n(x.c)} أيام • ${n(x.due)} للمراجعة • ${n(x.w)} ضعيفة</small><div class="row" style="justify-content:flex-start;gap:8px">${id===DB.cur||adm?`<button class="b" data-x="pin" data-id="${id}">🔒 رمز</button>`:""}${adm?`<button class="b" data-x="delp" data-id="${id}">حذف</button>`:""}</div></div>`}).join("");
+ const rem=rm.map(o=>{tot+=o.m;const pp=(o.m/TOT*100).toFixed(1);return `<div class="c" style="display:grid;gap:6px"><div class="row"><b>${esc(o.n)}</b><span class="gd">${n(pp)}٪</span></div>${bar(pp)}<small>${n(o.m)} آية • 🔥 ${n(o.c)} أيام • ${n(o.due)} للمراجعة • ${n(o.w)} ضعيفة</small><small>من جهاز آخر، آخر تحديث ${fmt(o.t)}</small>${adm?`<div class="row" style="justify-content:flex-start"><button class="b" data-x="delr" data-id="${o.id}">إزالة</button></div>`:""}</div>`}).join("");
+ return `<h2>بُستان العائلة</h2><div class="c st"><small>مجموع محفوظ الأسرة</small><b>${n(tot)} آية</b></div><small>المس اسمك للدخول إلى ملفك. الجميع يرون تقدم بعضهم، والإدارة للأب فقط.</small>${loc}${rem}
+ <div class="c" style="display:grid;gap:8px"><b>مشاركة التقدم بين الأجهزة</b><small>لتظهر بطاقتك عند أسرتك على جهاز آخر: انسخ رمز تقدمك وأرسله لهم، وألصق هنا رموزهم.</small><textarea id="tb" placeholder="ألصق رمز فرد هنا"></textarea><div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b bp" data-x="snx">نسخ رمز تقدمي</button><button class="b" data-x="sni">استيراد رمز فرد</button></div></div>
+ <div class="c" style="display:grid;gap:8px"><b>إدارة الأسرة (الأب)</b>${!DB.admin?'<div class="warn">لم يُضبط رمز الأب بعد، فيستطيع أي فرد حذف الملفات. اضبطه الآن.</div><button class="b bp" data-x="apin">ضبط رمز الأب</button>':adm?`<div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b" data-x="apin">تغيير رمز الأب</button><button class="b" data-x="alk">قفل الإدارة</button></div><input class="q" id="nn" maxlength="20" placeholder="اسم الفرد الجديد"><button class="b bp" data-x="addp">إضافة فرد</button>`:'<button class="b bp" data-x="aunlock">فتح الإدارة برمز الأب</button>'}${!DB.admin?'<input class="q" id="nn" maxlength="20" placeholder="اسم الفرد الجديد"><button class="b bp" data-x="addp">إضافة فرد</button>':""}</div>`}
  if(t==="set")return `<h2>الإعدادات والنسخ الاحتياطي</h2><div class="c" style="display:grid;gap:10px"><textarea id="ta" placeholder="ألصق هنا نسخة احتياطية للاستيراد"></textarea>
  <div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b bp" data-x="expa">تصدير الأسرة كلها</button><button class="b" data-x="exp">تصدير ${esc(cur().n)} فقط</button><button class="b" data-x="imp">استيراد</button></div>
  <small>بياناتك محفوظة على هذا الجهاز فقط. استيراد ملف فردي يضيفه كملف جديد دون الكتابة فوق ملفاتك. آخر نسخة احتياطية: ${DB.lb?fmt(DB.lb):"لم تُنشأ بعد"}.</small>
@@ -187,7 +195,7 @@ function render(keep){const y=scrollY,st=stats(),onb=V.t==="onb";
   h=`<header><div class="hi"><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
   <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}<footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></main>
   <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
- if(M&&M.pin)h+=`<div class="ov"><div class="c"><b>رمز الدخول (٤ إلى ٨ أرقام)</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="اتركه فارغًا لإزالة الرمز"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="pset">حفظ</button></div></div></div>`;else if(M)h+=`<div class="ov"><div class="c"><div>${M.msg}</div><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bd" data-x="yes">تأكيد</button></div></div></div>`;
+ if(M&&M.ap)h+=`<div class="ov"><div class="c"><b>رمز الأب مطلوب لإدارة الأسرة</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="رمز الأب"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="apu">تأكيد</button></div></div></div>`;else if(M&&M.pin)h+=`<div class="ov"><div class="c"><b>رمز الدخول (٤ إلى ٨ أرقام)</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="اتركه فارغًا لإزالة الرمز"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="pset">حفظ</button></div></div></div>`;else if(M)h+=`<div class="ov"><div class="c"><div>${M.msg}</div><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bd" data-x="yes">تأكيد</button></div></div></div>`;
  $("app").innerHTML=h;
  if(keep)scrollTo(0,y);else{const f=V.t==="det"&&V.f&&$("foc");if(f)f.scrollIntoView({block:"center"});else scrollTo(0,0)}
  V.f=0}
@@ -198,10 +206,19 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"start":{const nm=(($("nm")||{}).value||"").trim().slice(0,20)||"أنا",id=uid();DB.ps[id]=mk(nm);DB.ps[id].d.on=1;sw(id);V.t="home";break}
  case"sw":if(b.dataset.id!==DB.cur)sw(b.dataset.id);V.t="home";break;
  case"pu":if($("lp").value===cur().pin)LK="";else{toast("الرمز غير صحيح");return}break;
- case"addp":{const nm=$("nn").value.trim().slice(0,20);if(!nm){toast("اكتب اسم الفرد أولًا");return}const id=uid();DB.ps[id]=mk(nm);DB.ps[id].d.on=1;save();toast("أُضيف "+nm);break}
- case"pin":{const id=b.dataset.id;if(DB.ps[id].pin&&id!==DB.cur){toast("افتح هذا الملف أولًا بالرمز");return}M={pin:id};render(1);return}
- case"pset":{const v=$("pi").value.trim();if(v&&!/^\d{4,8}$/.test(v)){toast("الرمز من ٤ إلى ٨ أرقام");return}DB.ps[M.pin].pin=v;M=null;save();toast(v?"تم ضبط الرمز":"أُزيل الرمز");render(1);return}
- case"delp":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur){toast("افتح هذا الملف أولًا بالرمز");return}ask("حذف ملف "+esc(q.n)+" وكل تقدمه نهائيًا؟",()=>{delete DB.ps[id];if(DB.cur===id){const k=Object.keys(DB.ps);if(k.length)sw(k[0]);else{DB.cur="";S=def();LK="";V.t="onb"}}save();render()});return}
+ case"addp":{const nm=$("nn").value.trim().slice(0,20);if(!nm){toast("اكتب اسم الفرد أولًا");return}gate(()=>{const id=uid();DB.ps[id]=mk(nm);DB.ps[id].d.on=1;save();toast("أُضيف "+nm);render()});return}
+ case"pin":{const id=b.dataset.id;if(id===DB.cur){M={pin:id};render(1);return}gate(()=>{M={pin:id};render(1)});return}
+ case"apin":gate(()=>{M={pin:"__a"};render(1)});return;
+ case"alk":AD=false;toast("قُفلت الإدارة");break;
+ case"aunlock":gate(()=>render());return;
+ case"apu":{if($("pi").value===DB.admin){AD=true;const f=M.fn;M=null;f()}else toast("رمز الأب غير صحيح");return}
+ case"snx":{const t=$("tb");t.value=snap();t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast("تم نسخ رمز تقدمك، أرسله لأسرتك")).catch(()=>toast("حدّد النص وانسخه يدويًا"))}catch(err){toast("حدّد النص وانسخه يدويًا")}return}
+ case"sni":{const v=($("tb").value||"").trim();let o;try{if(!v.startsWith("BSN1:"))throw 0;o=JSON.parse(decodeURIComponent(escape(atob(v.slice(5)))));if(!o.id||typeof o.m!=="number")throw 0}catch(err){toast("الرمز غير صالح");return}
+  if(DB.ps[o.id]){toast("هذا الفرد موجود على جهازك");return}
+  DB.rm=DB.rm||{};DB.rm[o.id]={id:o.id,n:String(o.n).slice(0,20),t:String(o.t),m:+o.m||0,c:+o.c||0,due:+o.due||0,w:+o.w||0,done:+o.done||0};save();toast("تم تحديث "+o.n);break}
+ case"delr":gate(()=>{delete DB.rm[b.dataset.id];save();render()});return;
+ case"pset":{const v=$("pi").value.trim();if(v&&!/^\d{4,8}$/.test(v)){toast("الرمز من ٤ إلى ٨ أرقام");return}if(M.pin==="__a"){DB.admin=v;AD=!!v}else DB.ps[M.pin].pin=v;M=null;save();toast(v?"تم ضبط الرمز":"أُزيل الرمز");render(1);return}
+ case"delp":{const id=b.dataset.id,q=DB.ps[id];gate(()=>ask("حذف ملف "+esc(q.n)+" وكل تقدمه نهائيًا؟",()=>{delete DB.ps[id];if(DB.cur===id){const k=Object.keys(DB.ps);if(k.length)sw(k[0]);else{DB.cur="";S=def();LK="";V.t="onb"}}save();render()}));return}
  case"go":V.t=b.dataset.v;break;
  case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;break;
  case"cont":V.t="det";V.s=S.last?S.last.s:1;V.f=1;R={};V.all=0;break;
@@ -215,7 +232,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"qok":qgrade(true);break;
  case"qno":qgrade(false);break;
  case"hq2":pickHal();break;
- case"hq3":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur){toast("افتح ملفه أولًا بالرمز");return}const k=reviewS(DB.hq.s,q.d);save();toast(k?"بارك الله فيه، تمت مراجعة "+n(k)+" آية":"لا آيات مستحقة له في هذه السورة، وتلاوتها مفيدة على أي حال");render(1);return}
+ case"hq3":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur&&!(DB.admin&&AD)){toast("افتح ملفه أولًا بالرمز");return}const k=reviewS(DB.hq.s,q.d);save();toast(k?"بارك الله فيه، تمت مراجعة "+n(k)+" آية":"لا آيات مستحقة له في هذه السورة، وتلاوتها مفيدة على أي حال");render(1);return}
  case"mk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="m"?"n":"m");save();render(1);return}
  case"wk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="w"?"n":"w");save();render(1);return}
  case"all":ask("تحديد كل آيات سورة "+N[sv-1]+" كمحفوظة؟",()=>{for(let i=1;i<=A[sv-1];i++)if(!S.r[sv+"_"+i])setA(sv,i,"m");save();toast("تم تحديد السورة");render(1)});return;
@@ -224,12 +241,12 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"rv":{const k=reviewS(s);save();toast(k?"بارك الله فيك، تمت مراجعة "+n(k)+" آية":"لا شيء للمراجعة");break}
  case"exp":case"expa":{const t=$("ta");DB.lb=ymd();t.value=JSON.stringify(x==="expa"?DB:{v:3,one:{n:cur().n,d:S}});save();t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast("تم النسخ")).catch(()=>toast("حدّد النص وانسخه يدويًا"))}catch(err){toast("حدّد النص وانسخه يدويًا")}return}
  case"imp":{let o;try{o=JSON.parse($("ta").value)}catch(err){toast("النص غير صالح كنسخة احتياطية");return}
-  if(okDB(o)){ask("استبدال بيانات الأسرة كلها بالنسخة الملصقة؟",()=>{setDB(o);save();V.t="home";render()});return}
+  if(okDB(o)){gate(()=>ask("استبدال بيانات الأسرة كلها بالنسخة الملصقة؟",()=>{setDB(o);save();V.t="home";render()}));return}
   const one=o&&o.one&&o.one.d&&o.one.d.r?o.one:(o&&o.r?{n:"مستورد",d:o}:null);
   if(!one||typeof one.d.r!=="object"){toast("النص غير صالح كنسخة احتياطية");return}
   const id=uid();DB.ps[id]={n:String(one.n||"مستورد").slice(0,20),pin:"",d:Object.assign(def(),one.d)};save();toast("أُضيف كملف جديد");V.t="fam";break}
  case"reset":ask("سيُحذف تقدم "+esc(cur().n)+" نهائيًا. هل أنت متأكد؟",()=>{const q=cur();q.d=def();q.d.on=1;S=q.d;save();V.t="home";render()});return;
- case"resetall":ask("ستُحذف بيانات الأسرة كلها نهائيًا. تأكد أنك صدّرت نسخة احتياطية.",()=>{DB={cur:"",lb:"",ps:{}};S=def();LK="";save();V.t="onb";render()});return;
+ case"resetall":gate(()=>ask("ستُحذف بيانات الأسرة كلها نهائيًا. تأكد أنك صدّرت نسخة احتياطية.",()=>{DB={cur:"",lb:"",ps:{}};S=def();LK="";AD=false;save();V.t="onb";render()}));return;
  case"yes":{const f=M.fn;M=null;f();return}
  case"no":M=null;render(1);return;
  }
