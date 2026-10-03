@@ -98,7 +98,7 @@ let S=cur()?cur().d:def(),LK=cur()&&cur().pin?DB.cur:"";
 function save(){const j=JSON.stringify(DB);try{localStorage.setItem("qh_v3",j)}catch(e){mem=true}idbSet(j)}
 function sw(id){DB.cur=id;S=DB.ps[id].d;LK=DB.ps[id].pin?id:"";save()}
 function setDB(x){for(const k in x.ps){const q=x.ps[k];q.pin=q.pin?String(q.pin):"";q.n=String(q.n||"؟").slice(0,20);q.d=Object.assign(def(),q.d)}DB=x;S=cur().d;LK=cur().pin?DB.cur:""}
-let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,QS="",R={};
+let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,P=null,QZ=null,QS="",R={};
 
 const cl=t=>String(t).replace(/\uFEFF/g,"").trim();
 async function dlQ(){QS="load";render(1);
@@ -106,17 +106,25 @@ async function dlQ(){QS="load";render(1);
   if(j.code!==200||ss.length!==114)throw 0;const bs=cl(ss[0].ayahs[0].text);let tot=0;
   const q=ss.map((su,i)=>{if(su.ayahs.length!==A[i])throw 0;return su.ayahs.map((y,k)=>{let t=cl(y.text);if(k===0&&i!==0&&i!==8&&t.startsWith(bs))t=t.slice(bs.length).trim();tot++;return t})});
   if(tot!==TOT||q.some(a=>a.some(t=>!t)))throw 0;
-  await idbSet(JSON.stringify(q),"quran");Q=q;QS="ok";toast("تم تنزيل النص")}catch(e){QS="err"}render(1)}
+  await idbSet(JSON.stringify(q),"quran");Q=q;
+  const pg=ss.map(su=>su.ayahs.map(y=>+y.page||0));if(pg.every(a=>a.every(v=>v>=1&&v<=604))){await idbSet(JSON.stringify(pg),"qpages");P=pg}
+  QS="ok";toast("تم تنزيل النص")}catch(e){QS="err"}render(1)}
+function qpick(){const t=ymd(),ks=Object.keys(S.r);if(!ks.length)return null;const d=ks.filter(k=>S.r[k].n<=t),pool=d.length?d:ks;let k;do{k=pool[Math.floor(Math.random()*pool.length)]}while(pool.length>1&&QZ&&QZ.k===k);return k}
+function qgrade(ok){const r=S.r[QZ.k],t=ymd();if(r){if(ok){r.l=Math.min(r.l+1,5);r.n=add(t,IV[r.l]);r.s="m"}else{r.s="w";r.l=0;r.n=add(t,1)}bump()}
+ QZ.ok+=ok?1:0;QZ.no+=ok?0:1;QZ.show=0;QZ.k=qpick()||QZ.k;save()}
+function pickHal(){const any=Array(115).fill(0);Object.keys(DB.ps).forEach(id=>{const x=stats(DB.ps[id].d);for(let i=1;i<=114;i++)if(x.ps[i])any[i]++});
+ let c=[];for(let i=1;i<=114;i++)if(any[i]>=2)c.push(i);if(!c.length)for(let i=1;i<=114;i++)if(any[i])c.push(i);if(!c.length)c=[1];
+ let h;do{h=c[Math.floor(Math.random()*c.length)]}while(c.length>1&&DB.hq&&DB.hq.s===h);DB.hq={s:h,d:ymd()};save()}
 function bump(k=1){const t=ymd();S.act[t]=(S.act[t]||0)+k}
 function setA(s,a,st){const k=s+"_"+a,t=ymd(),o=S.r[k];
  if(st==="m"){S.r[k]={s:"m",d:o?o.d:t,l:o?o.l:0,n:o?o.n:add(t,1)};if(!o)bump()}
  else if(st==="w"){S.r[k]={s:"w",d:o?o.d:t,l:0,n:add(t,1)};if(!o)bump()}
  else delete S.r[k];
  S.last={s,a}}
-function reviewS(s){const t=ymd();let k=0;
- for(let a=1;a<=A[s-1];a++){const r=S.r[s+"_"+a];
+function reviewS(s,D=S){const t=ymd();let k=0;
+ for(let a=1;a<=A[s-1];a++){const r=D.r[s+"_"+a];
   if(r&&r.n<=t){if(r.s==="w"){r.l=0;r.n=add(t,2)}else{r.l=Math.min(r.l+1,5);r.n=add(t,IV[r.l])}r.s="m";k++}}
- if(k)bump(k);return k}
+ if(k)D.act[t]=(D.act[t]||0)+k;return k}
 function stats(D=S){const t=ymd();let m=0,w=0,due=0,td=0;const ps=Array(115).fill(0),ds=Array(115).fill(0);
  for(const k in D.r){const r=D.r[k],s=+k.split("_")[0];m++;ps[s]++;if(r.s==="w")w++;if(r.n<=t){due++;ds[s]++}if(r.d===t)td++}
  let done=0;A.forEach((c,i)=>{if(ps[i+1]===c)done++});
@@ -132,16 +140,17 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  <div class="c"><div class="row"><b>هدف اليوم</b><span>${n(st.td)} / ${n(S.plan)} آية جديدة</span></div>${bar(st.td/S.plan*100)}</div>
  <div class="g3"><button class="c act" data-x="cont"><small>${L?"تابع الحفظ":"ابدأ الحفظ"}</small><b>سورة ${N[(L?L.s:1)-1]}</b></button>
  <button class="c act" data-x="go" data-v="rev"><small>مراجعة اليوم</small><b>${st.due?n(st.due)+" آية مستحقة":"لا شيء مستحق"}</b></button>
- <button class="c act" data-x="go" data-v="plan"><small>موعد الختم المتوقع</small><b>${st.m?fmt(st.fin):"ابدأ لتظهر التوقعات"}</b></button></div>`;
+ <button class="c act" data-x="go" data-v="plan"><small>موعد الختم المتوقع</small><b>${st.m?fmt(st.fin):"ابدأ لتظهر التوقعات"}</b></button><button class="c act" data-x="qz0"><small>اختبر حفظك</small><b>أول الآية وأكمل</b></button><button class="c act" data-x="go" data-v="hal"><small>حلقتنا</small><b>مراجعة العائلة معًا</b></button></div>`;
  if(t==="sur")return `<h2>فهرس السور</h2><input class="q" id="q" placeholder="ابحث عن سورة…">`+N.map((nm,i)=>`<button class="c li" data-x="open" data-s="${i+1}" data-q="${nm}"><span class="no">${n(i+1)}</span><span class="nm"><b>سورة ${nm}</b><small>${n(A[i])} آية</small></span><span class="gd">${n(Math.round(st.ps[i+1]/A[i]*100))}٪</span></button>`).join("");
  if(t==="det"){const s=V.s,c=A[s-1];let f=0,rows="";
   for(let a=1;a<=c;a++){const r=S.r[s+"_"+a];if(!r&&!f)f=a;
    const q=R[a]!==undefined?R[a]:V.all?2:0,tx=Q?Q[s-1][a-1]:"",w=tx.split(" ").slice(0,2).join(" ");
-   rows+=`<div class="ay"><div class="row"><button class="nb ${r?r.s:""}" ${a===f?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button><div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
+   rows+=`<div class="ay"><div class="row"><button class="nb ${r?r.s:""}" ${a===f?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button>${P?`<small style="flex:1;padding:0 10px">ص ${n(P[s-1][a-1])}</small>`:""}<div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
   return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
   <div class="c"><div class="row"><span>${n(st.ps[s])} / ${n(c)} آية</span><span class="gd">${n(Math.round(st.ps[s]/c*100))}٪</span></div>${bar(st.ps[s]/c*100)}
   <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
   ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل العثماني المراجَع على مصحف المدينة.</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
+  ${Q&&!P?'<small>لإظهار رقم صفحة المصحف حدّث بيانات النص: <button class="b" data-x="dl">تحديث</button></small>':""}
   <small>الآيات مخفية: احفظ الآية ثم المس رقمها لتتحقق منها. 💡 يُظهر أول كلمتين، ✓ محفوظة، ⚠ ضعيفة وتحتاج مراجعة.</small>${rows}<small>نص القرآن: مشروع تنزيل (tanzil.net) عبر alquran.cloud، رسم عثماني.</small>`}
  if(t==="plan")return `<h2>خطة الحفظ</h2><div class="c" style="display:grid;gap:12px"><b>عدد الآيات الجديدة يوميًا</b><div class="opts">${[3,5,10,20].map(v=>`<button class="b ${S.plan===v?"on":""}" data-x="plan" data-v="${v}">${n(v)}</button>`).join("")}</div>
  <div>اليوم: ${n(st.td)} / ${n(S.plan)}</div>${bar(st.td/S.plan*100)}<div>${st.m?`بهذا المعدل تختم في <b>${fmt(st.fin)}</b> (متبقٍ ${n(st.rem)} آية).`:"علّم أول آية لتظهر تقديرات الختم."}</div></div>`;
@@ -150,6 +159,18 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  if(t==="sta"){const days=[...Array(7)].map((_,i)=>add(st.t,i-6)),mx=Math.max(1,...days.map(d=>S.act[d]||0));
   return `<h2>التقارير</h2><div class="g2"><div class="c st"><small>المحفوظة</small><b>${n(st.m)}</b></div><div class="c st"><small>المتبقية</small><b>${n(st.rem)}</b></div><div class="c st"><small>الضعيفة</small><b>${n(st.w)}</b></div><div class="c st"><small>سور مكتملة</small><b>${n(st.done)}</b></div></div>
   <div class="c"><b>نشاط آخر ٧ أيام</b><div class="wk" style="margin-top:12px">${days.map(d=>{const v=S.act[d]||0;return `<div><i style="height:${v/mx*80}px"></i>${n(v)}</div>`}).join("")}</div></div>`}
+ if(t==="quiz"){const z=QZ;
+ if(!Q)return `<h2>اختبر حفظك</h2><div class="c">يحتاج الاختبار إلى نص المصحف. افتح أي سورة واضغط "تنزيل نص المصحف" أولًا.</div>`;
+ if(!z)return `<h2>اختبر حفظك</h2><div class="c st mu">علّم بعض الآيات كمحفوظة لتبدأ الاختبار.</div>`;
+ const[qs,qa]=z.k.split("_").map(Number),tx=Q[qs-1][qa-1],w3=tx.split(" ").slice(0,3).join(" ");
+ return `<div class="row"><button class="b" data-x="go" data-v="home">إنهاء</button><span>✓ ${n(z.ok)} • ✗ ${n(z.no)}</span></div>
+ <div class="c" style="display:grid;gap:12px;text-align:center"><small>سورة ${N[qs-1]} — الآية ${n(qa)}${P?" — صفحة "+n(P[qs-1][qa-1]):""}</small>
+ <div class="qt" style="border:0;margin:0;padding:0">${w3} …</div>
+ ${z.show?`<div class="qt">${tx}</div><div class="row" style="justify-content:center;gap:12px"><button class="b bd" data-x="qno">أخطأت</button><button class="b bp" data-x="qok">أصبت</button></div>`:`<button class="b bp big" data-x="qshow">أظهر الآية</button>`}</div>`}
+ if(t==="hal"){if(!DB.hq||DB.hq.d!==st.t)pickHal();const hs=DB.hq.s;
+ return `<h2>حلقتنا</h2><small>تجتمع الأسرة على سورة واحدة، يراجعها كل فرد ثم يضغط "تمت" أمام اسمه.</small>
+ <div class="c st"><small>سورة اليوم</small><b>${N[hs-1]}</b><div class="row" style="justify-content:center;gap:8px"><button class="b" data-x="hq2">سورة أخرى</button><button class="b" data-x="open" data-s="${hs}">فتحها</button></div></div>`
+ +Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),pp=Math.round(x.ps[hs]/A[hs-1]*100);return `<div class="c" style="display:grid;gap:6px"><div class="row"><b>${esc(q.n)}</b><span class="gd">${n(pp)}٪</span></div>${bar(pp)}<div class="row"><small>${n(x.ds[hs])} آية مستحقة</small><button class="b bp" data-x="hq3" data-id="${id}">تمت المراجعة ✓</button></div></div>`}).join("")}
  if(t==="fam")return `<h2>أسرتي</h2><small>المس الاسم للانتقال إلى ملفه ومتابعة تقدمه.</small>`+Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),o=(x.m/TOT*100).toFixed(1);
  return `<div class="c" style="display:grid;gap:6px"><div class="row"><button class="b" data-x="sw" data-id="${id}"><b>${esc(q.n)}</b> ${id===DB.cur?"✓":""}${q.pin?"🔒":""}</button><span class="gd">${n(o)}٪</span></div>${bar(o)}<small>${n(x.m)} آية • 🔥 ${n(x.c)} أيام • ${n(x.due)} للمراجعة • ${n(x.w)} ضعيفة</small><div class="row" style="justify-content:flex-start;gap:8px"><button class="b" data-x="pin" data-id="${id}">🔒 رمز</button><button class="b" data-x="delp" data-id="${id}">حذف</button></div></div>`}).join("")+`<div class="c" style="display:grid;gap:8px"><b>إضافة فرد جديد</b><input class="q" id="nn" maxlength="20" placeholder="الاسم"><button class="b bp" data-x="addp">إضافة</button></div>`;
  if(t==="set")return `<h2>الإعدادات والنسخ الاحتياطي</h2><div class="c" style="display:grid;gap:10px"><textarea id="ta" placeholder="ألصق هنا نسخة احتياطية للاستيراد"></textarea>
@@ -162,7 +183,7 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
 function render(keep){const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
  if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
- else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":V.t;
+ else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
   h=`<header><div class="hi"><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
   <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}<footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></main>
   <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
@@ -189,6 +210,12 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"sa":V.all=1;R={};render(1);return;
  case"ha":V.all=0;R={};render(1);return;
  case"dl":if(QS!=="load")dlQ();return;
+ case"qz0":{const k=qpick();QZ=k?{k,show:0,ok:0,no:0}:null;V.t="quiz";break}
+ case"qshow":QZ.show=1;render(1);return;
+ case"qok":qgrade(true);break;
+ case"qno":qgrade(false);break;
+ case"hq2":pickHal();break;
+ case"hq3":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur){toast("افتح ملفه أولًا بالرمز");return}const k=reviewS(DB.hq.s,q.d);save();toast(k?"بارك الله فيه، تمت مراجعة "+n(k)+" آية":"لا آيات مستحقة له في هذه السورة، وتلاوتها مفيدة على أي حال");render(1);return}
  case"mk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="m"?"n":"m");save();render(1);return}
  case"wk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="w"?"n":"w");save();render(1);return}
  case"all":ask("تحديد كل آيات سورة "+N[sv-1]+" كمحفوظة؟",()=>{for(let i=1;i<=A[sv-1];i++)if(!S.r[sv+"_"+i])setA(sv,i,"m");save();toast("تم تحديد السورة");render(1)});return;
@@ -209,6 +236,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  render()});
 document.addEventListener("input",e=>{if(e.target.id!=="q")return;const v=e.target.value.trim();document.querySelectorAll(".li").forEach(el=>el.style.display=el.dataset.q.includes(v)?"":"none")});
 if(!cur())idbGet().then(j=>{try{const o=JSON.parse(j);if(okDB(o)){setDB(o);V.t="home";render()}}catch(e){}});
+idbGet("qpages").then(j=>{try{const p=JSON.parse(j);if(Array.isArray(p)&&p.length===114){P=p;render(1)}}catch(e){}});
 idbGet("quran").then(j=>{try{const q=JSON.parse(j);if(Array.isArray(q)&&q.length===114){Q=q;render(1)}}catch(e){}});
 if("serviceWorker" in navigator)try{navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
 render();
