@@ -1,0 +1,25 @@
+{
+ "name": "حفظ القرآن الكريم — رحلتي من الفاتحة إلى الناس",
+ "short_name": "حفظ القرآن",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "dir": "rtl",
+ "lang": "ar",
+ "background_color": "#F8F6EF",
+ "theme_color": "#064E43",
+ "icons": [
+  {
+   "src": "icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png",
+   "purpose": "any maskable"
+  },
+  {
+   "src": "icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "any maskable"
+  }
+ ]
+}

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#064E43"><link rel="apple-touch-icon" href="icon-192.png">
+<title>حفظ القرآن الكريم — رحلتي من الفاتحة إلى الناس</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri+Quran&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F8F6EF;--card:#fff;--fg:#2C3E50;--mut:#6b7280;--br:#EAE6DA;--pri:#064E43;--pri2:#0D7A68;--hd:#064E43;--gold:#C5A059;--warn:#D9A441;--chip:#F3F0E8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1816;--card:#15231f;--fg:#e7ece9;--mut:#9fb0aa;--br:#243a34;--hd:#7fd6c6;--chip:#1d302b}}
+:root[data-theme="dark"]{--bg:#0e1816;--card:#15231f;--fg:#e7ece9;--mut:#9fb0aa;--br:#243a34;--hd:#7fd6c6;--chip:#1d302b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;padding-bottom:84px;line-height:1.6}
+button,textarea,input{font:inherit;color:inherit}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--pri);color:#F8F6EF;border-bottom:2px solid var(--gold)}
+.hi{max-width:720px;margin:auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hi h1{font-size:16px;margin:0}.hi small{color:var(--gold);font-size:12px}
+.pill{max-width:120px;overflow:hidden;text-overflow:ellipsis;cursor:pointer;background:rgba(255,255,255,.12);border:1px solid rgba(197,160,89,.5);border-radius:99px;padding:3px 12px;font-size:12px;white-space:nowrap}
+.ib{background:none;border:0;color:#F8F6EF;font-size:20px;padding:6px;cursor:pointer}
+main{max-width:720px;margin:auto;padding:16px;display:grid;gap:14px}
+h2{margin:0;font-size:20px;color:var(--hd)}
+.c{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:16px}
+.hero{background:linear-gradient(135deg,#064E43,#0D7A68);color:#fff;border-color:var(--gold)}
+.hero h2{color:#fff;font-size:34px}.gd{color:var(--gold)}.mu{color:var(--mut)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+small{font-size:12px;color:var(--mut)}.hero small{color:rgba(255,255,255,.75)}.hero small.gd{color:var(--gold)}
+.bar{height:10px;background:rgba(127,127,127,.2);border-radius:99px;overflow:hidden;margin:10px 0}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .4s}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g2>div{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 10px}.g2 b{display:block}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.act{text-align:right;cursor:pointer;display:block;width:100%}.act b{color:var(--hd);display:block}
+.b{border:0;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--chip);border:1px solid var(--br)}
+.bp{background:var(--pri);color:#fff;border-color:var(--gold)}.bd{background:#b3261e;color:#fff;border:0}.big{padding:14px 28px;font-size:16px}
+.li{display:flex;align-items:center;gap:12px;width:100%;text-align:right;cursor:pointer;padding:12px}
+.no{width:36px;height:36px;border-radius:10px;background:var(--chip);border:1px solid rgba(197,160,89,.4);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--hd)}
+.nm{flex:1}.nm b{display:block;color:var(--hd)}
+input.q{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--br);background:var(--card)}
+.chs{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:8px}
+.ch{height:44px;border-radius:12px;border:1px solid var(--br);background:var(--chip);font-weight:700;cursor:pointer}
+.ch.m{background:var(--pri2);color:#fff;border-color:var(--pri2)}.ch.w{background:var(--warn);color:#2b1d00;border-color:var(--warn)}
+.lg{display:flex;gap:14px;font-size:12px;flex-wrap:wrap}.lg span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-left:5px;vertical-align:-1px;background:var(--chip);border:1px solid var(--br)}
+.lg .m:before{background:var(--pri2)}.lg .w:before{background:var(--warn)}
+.ay{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:10px 12px}
+.nb{min-width:48px;height:44px;border-radius:12px;border:1px solid var(--br);background:var(--chip);font-weight:800;font-size:15px;cursor:pointer}
+.nb.m{background:var(--pri2);color:#fff;border-color:var(--pri2)}.nb.w{background:var(--warn);color:#2b1d00;border-color:var(--warn)}
+.nb{display:grid;place-items:center;padding:0 8px}
+.ctl{display:flex;gap:6px}.ctl button{width:42px;height:42px;border-radius:10px;border:1px solid var(--br);background:var(--chip);cursor:pointer;font-size:16px}
+.ctl .on{background:var(--pri2);color:#fff}.ctl .onw{background:var(--warn);color:#2b1d00}
+.qt{font-family:"Amiri Quran",Amiri,serif;font-size:25px;line-height:2.1;margin-top:10px;padding-top:10px;border-top:1px dashed var(--br)}
+.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.opts .on{background:var(--pri);color:#fff}
+.wk{display:flex;align-items:flex-end;gap:8px;height:110px}.wk div{flex:1;text-align:center;font-size:11px;color:var(--mut)}.wk i{display:block;background:var(--pri2);border-radius:6px 6px 0 0;min-height:3px;margin-bottom:4px}
+.st{text-align:center}.st b{display:block;font-size:26px;color:var(--hd)}
+nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:var(--pri);border-top:1px solid var(--gold);padding-bottom:env(safe-area-inset-bottom,0px)}
+.ni{max-width:720px;margin:auto;display:flex;justify-content:space-around}
+nav button{background:none;border:0;color:rgba(248,246,239,.7);padding:8px 10px;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center}
+nav button span{font-size:19px}nav button.on{color:var(--gold);font-weight:700}
+.onb{min-height:85vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.logo{width:92px;height:92px;border-radius:50%;background:var(--pri);border:4px solid var(--gold);display:grid;place-items:center;font-size:40px}
+.onb h1{margin:0;color:var(--hd);font-size:28px}.onb p{margin:0;max-width:360px}
+textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--br);background:var(--card);padding:10px;font-size:12px;direction:ltr}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:grid;place-items:center;padding:20px}
+.ov .c{max-width:340px;display:grid;gap:14px}.ov .row{justify-content:flex-end}
+#toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;transform:translateX(-50%);background:var(--pri);color:#fff;border:1px solid var(--gold);padding:8px 20px;border-radius:99px;font-size:13px;z-index:50;display:none}
+.warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:13px}
+</style>
+</head>
+<body>
+<div id="app"></div><div id="toast"></div>
+<script>
+const N="الفاتحة|البقرة|آل عمران|النساء|المائدة|الأنعام|الأعراف|الأنفال|التوبة|يونس|هود|يوسف|الرعد|إبراهيم|الحجر|النحل|الإسراء|الكهف|مريم|طه|الأنبياء|الحج|المؤمنون|النور|الفرقان|الشعراء|النمل|القصص|العنكبوت|الروم|لقمان|السجدة|الأحزاب|سبأ|فاطر|يس|الصافات|ص|الزمر|غافر|فصلت|الشورى|الزخرف|الدخان|الجاثية|الأحقاف|محمد|الفتح|الحجرات|ق|الذاريات|الطور|النجم|القمر|الرحمن|الواقعة|الحديد|المجادلة|الحشر|الممتحنة|الصف|الجمعة|المنافقون|التغابن|الطلاق|التحريم|الملك|القلم|الحاقة|المعارج|نوح|الجن|المزمل|المدثر|القيامة|الإنسان|المرسلات|النبأ|النازعات|عبس|التكوير|الانفطار|المطففين|الانشقاق|البروج|الطارق|الأعلى|الغاشية|الفجر|البلد|الشمس|الليل|الضحى|الشرح|التين|العلق|القدر|البينة|الزلزلة|العاديات|القارعة|التكاثر|العصر|الهمزة|الفيل|قريش|الماعون|الكوثر|الكافرون|النصر|المسد|الإخلاص|الفلق|الناس".split("|");
+const A=[7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+const TOT=A.reduce((a,b)=>a+b,0), IV=[1,3,7,14,30,60], KEY="qh_v2";
+const $=id=>document.getElementById(id), n=x=>Number(x).toLocaleString("ar-EG");
+const ymd=(d=new Date())=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const add=(s,k)=>{const[y,m,d]=s.split("-").map(Number);return ymd(new Date(y,m-1,d+k))};
+const fmt=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString("ar",{year:"numeric",month:"long",day:"numeric"})};
+const bar=p=>`<div class="bar"><i style="width:${Math.min(100,p)}%"></i></div>`;
+const def=()=>({on:0,r:{},plan:5,act:{},last:null});
+const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid=()=>"p"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
+const mk=nm=>({n:nm,pin:"",d:def()});
+let mem=false;
+try{localStorage.setItem("_t","1");localStorage.removeItem("_t")}catch(e){mem=true}
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+const okDB=o=>!!(o&&o.ps&&typeof o.ps==="object"&&o.cur in o.ps&&Object.values(o.ps).every(q=>q&&q.d&&typeof q.d.r==="object"));
+function load(){try{const x=JSON.parse(localStorage.getItem("qh_v3"));if(okDB(x))return x;
+ const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.r){const id=uid();return{cur:id,lb:"",ps:{[id]:{n:"أنا",pin:"",d:Object.assign(def(),o)}}}}}catch(e){}
+ return{cur:"",lb:"",ps:{}}}
+const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open("qh",1);r.onupgradeneeded=()=>r.result.createObjectStore("k");r.onsuccess=()=>res(r.result);r.onerror=()=>rej()});
+async function idbSet(v,k="db"){try{const d=await idb();d.transaction("k","readwrite").objectStore("k").put(v,k)}catch(e){}}
+async function idbGet(k="db"){try{const d=await idb();return await new Promise(res=>{const q=d.transaction("k").objectStore("k").get(k);q.onsuccess=()=>res(q.result);q.onerror=()=>res(null)})}catch(e){return null}}
+let DB=load();
+const cur=()=>DB.ps[DB.cur];
+let S=cur()?cur().d:def(),LK=cur()&&cur().pin?DB.cur:"";
+function save(){const j=JSON.stringify(DB);try{localStorage.setItem("qh_v3",j)}catch(e){mem=true}idbSet(j)}
+function sw(id){DB.cur=id;S=DB.ps[id].d;LK=DB.ps[id].pin?id:"";save()}
+function setDB(x){for(const k in x.ps){const q=x.ps[k];q.pin=q.pin?String(q.pin):"";q.n=String(q.n||"؟").slice(0,20);q.d=Object.assign(def(),q.d)}DB=x;S=cur().d;LK=cur().pin?DB.cur:""}
+let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,QS="",R={};
+
+const cl=t=>String(t).replace(/\uFEFF/g,"").trim();
+async function dlQ(){QS="load";render(1);
+ try{const r=await fetch("https://api.alquran.cloud/v1/quran/quran-uthmani");if(!r.ok)throw 0;const j=await r.json(),ss=j.data.surahs;
+  if(j.code!==200||ss.length!==114)throw 0;const bs=cl(ss[0].ayahs[0].text);let tot=0;
+  const q=ss.map((su,i)=>{if(su.ayahs.length!==A[i])throw 0;return su.ayahs.map((y,k)=>{let t=cl(y.text);if(k===0&&i!==0&&i!==8&&t.startsWith(bs))t=t.slice(bs.length).trim();tot++;return t})});
+  if(tot!==TOT||q.some(a=>a.some(t=>!t)))throw 0;
+  await idbSet(JSON.stringify(q),"quran");Q=q;QS="ok";toast("تم تنزيل النص")}catch(e){QS="err"}render(1)}
+function bump(k=1){const t=ymd();S.act[t]=(S.act[t]||0)+k}
+function setA(s,a,st){const k=s+"_"+a,t=ymd(),o=S.r[k];
+ if(st==="m"){S.r[k]={s:"m",d:o?o.d:t,l:o?o.l:0,n:o?o.n:add(t,1)};if(!o)bump()}
+ else if(st==="w"){S.r[k]={s:"w",d:o?o.d:t,l:0,n:add(t,1)};if(!o)bump()}
+ else delete S.r[k];
+ S.last={s,a}}
+function reviewS(s){const t=ymd();let k=0;
+ for(let a=1;a<=A[s-1];a++){const r=S.r[s+"_"+a];
+  if(r&&r.n<=t){if(r.s==="w"){r.l=0;r.n=add(t,2)}else{r.l=Math.min(r.l+1,5);r.n=add(t,IV[r.l])}r.s="m";k++}}
+ if(k)bump(k);return k}
+function stats(D=S){const t=ymd();let m=0,w=0,due=0,td=0;const ps=Array(115).fill(0),ds=Array(115).fill(0);
+ for(const k in D.r){const r=D.r[k],s=+k.split("_")[0];m++;ps[s]++;if(r.s==="w")w++;if(r.n<=t){due++;ds[s]++}if(r.d===t)td++}
+ let done=0;A.forEach((c,i)=>{if(ps[i+1]===c)done++});
+ const rem=TOT-m,days=Math.ceil(rem/D.plan);
+ let c=0,d=D.act[t]?t:add(t,-1);while(D.act[d]){c++;d=add(d,-1)}
+ return{t,m,w,due,td,ps,ds,done,rem,c,fin:add(t,days)}}
+function toast(msg){const e=$("toast");e.textContent=msg;e.style.display="block";clearTimeout(toast.h);toast.h=setTimeout(()=>e.style.display="none",2200)}
+function ask(msg,fn){M={msg,fn};render(1)}
+
+function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
+ if(t==="home")return `${st.m>0&&(!DB.lb||DB.lb<add(st.t,-7))?'<div class="warn">مضى أكثر من أسبوع على آخر نسخة احتياطية. <button class="b" data-x="go" data-v="set">نسخ احتياطي</button></div>':""}<div class="c hero"><div class="row"><div><small class="gd">نسبة الحفظ الإجمالية</small><h2>${n(op)}٪</h2></div><span class="pill">${n(st.m)} / ${n(TOT)} آية</span></div>${bar(op)}
+ <div class="g2"><div><small>السور المكتملة</small><b>${n(st.done)} سورة</b></div><div><small>آخر موضع</small><b>${L?"سورة "+N[L.s-1]+" ("+n(L.a)+")":"لم تبدأ بعد"}</b></div></div></div>
+ <div class="c"><div class="row"><b>هدف اليوم</b><span>${n(st.td)} / ${n(S.plan)} آية جديدة</span></div>${bar(st.td/S.plan*100)}</div>
+ <div class="g3"><button class="c act" data-x="cont"><small>${L?"تابع الحفظ":"ابدأ الحفظ"}</small><b>سورة ${N[(L?L.s:1)-1]}</b></button>
+ <button class="c act" data-x="go" data-v="rev"><small>مراجعة اليوم</small><b>${st.due?n(st.due)+" آية مستحقة":"لا شيء مستحق"}</b></button>
+ <button class="c act" data-x="go" data-v="plan"><small>موعد الختم المتوقع</small><b>${st.m?fmt(st.fin):"ابدأ لتظهر التوقعات"}</b></button></div>`;
+ if(t==="sur")return `<h2>فهرس السور</h2><input class="q" id="q" placeholder="ابحث عن سورة…">`+N.map((nm,i)=>`<button class="c li" data-x="open" data-s="${i+1}" data-q="${nm}"><span class="no">${n(i+1)}</span><span class="nm"><b>سورة ${nm}</b><small>${n(A[i])} آية</small></span><span class="gd">${n(Math.round(st.ps[i+1]/A[i]*100))}٪</span></button>`).join("");
+ if(t==="det"){const s=V.s,c=A[s-1];let f=0,rows="";
+  for(let a=1;a<=c;a++){const r=S.r[s+"_"+a];if(!r&&!f)f=a;
+   const q=R[a]!==undefined?R[a]:V.all?2:0,tx=Q?Q[s-1][a-1]:"",w=tx.split(" ").slice(0,2).join(" ");
+   rows+=`<div class="ay"><div class="row"><button class="nb ${r?r.s:""}" ${a===f?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button><div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
+  return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
+  <div class="c"><div class="row"><span>${n(st.ps[s])} / ${n(c)} آية</span><span class="gd">${n(Math.round(st.ps[s]/c*100))}٪</span></div>${bar(st.ps[s]/c*100)}
+  <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
+  ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل العثماني المراجَع على مصحف المدينة.</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
+  <small>الآيات مخفية: احفظ الآية ثم المس رقمها لتتحقق منها. 💡 يُظهر أول كلمتين، ✓ محفوظة، ⚠ ضعيفة وتحتاج مراجعة.</small>${rows}<small>نص القرآن: مشروع تنزيل (tanzil.net) عبر alquran.cloud، رسم عثماني.</small>`}
+ if(t==="plan")return `<h2>خطة الحفظ</h2><div class="c" style="display:grid;gap:12px"><b>عدد الآيات الجديدة يوميًا</b><div class="opts">${[3,5,10,20].map(v=>`<button class="b ${S.plan===v?"on":""}" data-x="plan" data-v="${v}">${n(v)}</button>`).join("")}</div>
+ <div>اليوم: ${n(st.td)} / ${n(S.plan)}</div>${bar(st.td/S.plan*100)}<div>${st.m?`بهذا المعدل تختم في <b>${fmt(st.fin)}</b> (متبقٍ ${n(st.rem)} آية).`:"علّم أول آية لتظهر تقديرات الختم."}</div></div>`;
+ if(t==="rev"){const li=N.map((nm,i)=>st.ds[i+1]?`<div class="c row"><div><b class="gd" style="color:var(--hd)">سورة ${nm}</b><small>${n(st.ds[i+1])} آية مستحقة</small></div><div class="row"><button class="b" data-x="open" data-s="${i+1}">فتح</button><button class="b bp" data-x="rv" data-s="${i+1}">تمت المراجعة</button></div></div>`:"").join("");
+  return `<h2>المراجعة</h2><small>تُجدول المراجعة تلقائيًا بعد ١ ثم ٣ ثم ٧ ثم ١٤ ثم ٣٠ ثم ٦٠ يومًا من الحفظ. الآية الضعيفة تعود غدًا.</small>${li||'<div class="c st mu">لا توجد آيات مستحقة للمراجعة الآن. علّم ما حفظته من الفهرس لتظهر هنا.</div>'}`}
+ if(t==="sta"){const days=[...Array(7)].map((_,i)=>add(st.t,i-6)),mx=Math.max(1,...days.map(d=>S.act[d]||0));
+  return `<h2>التقارير</h2><div class="g2"><div class="c st"><small>المحفوظة</small><b>${n(st.m)}</b></div><div class="c st"><small>المتبقية</small><b>${n(st.rem)}</b></div><div class="c st"><small>الضعيفة</small><b>${n(st.w)}</b></div><div class="c st"><small>سور مكتملة</small><b>${n(st.done)}</b></div></div>
+  <div class="c"><b>نشاط آخر ٧ أيام</b><div class="wk" style="margin-top:12px">${days.map(d=>{const v=S.act[d]||0;return `<div><i style="height:${v/mx*80}px"></i>${n(v)}</div>`}).join("")}</div></div>`}
+ if(t==="fam")return `<h2>أسرتي</h2><small>المس الاسم للانتقال إلى ملفه ومتابعة تقدمه.</small>`+Object.keys(DB.ps).map(id=>{const q=DB.ps[id],x=stats(q.d),o=(x.m/TOT*100).toFixed(1);
+ return `<div class="c" style="display:grid;gap:6px"><div class="row"><button class="b" data-x="sw" data-id="${id}"><b>${esc(q.n)}</b> ${id===DB.cur?"✓":""}${q.pin?"🔒":""}</button><span class="gd">${n(o)}٪</span></div>${bar(o)}<small>${n(x.m)} آية • 🔥 ${n(x.c)} أيام • ${n(x.due)} للمراجعة • ${n(x.w)} ضعيفة</small><div class="row" style="justify-content:flex-start;gap:8px"><button class="b" data-x="pin" data-id="${id}">🔒 رمز</button><button class="b" data-x="delp" data-id="${id}">حذف</button></div></div>`}).join("")+`<div class="c" style="display:grid;gap:8px"><b>إضافة فرد جديد</b><input class="q" id="nn" maxlength="20" placeholder="الاسم"><button class="b bp" data-x="addp">إضافة</button></div>`;
+ if(t==="set")return `<h2>الإعدادات والنسخ الاحتياطي</h2><div class="c" style="display:grid;gap:10px"><textarea id="ta" placeholder="ألصق هنا نسخة احتياطية للاستيراد"></textarea>
+ <div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b bp" data-x="expa">تصدير الأسرة كلها</button><button class="b" data-x="exp">تصدير ${esc(cur().n)} فقط</button><button class="b" data-x="imp">استيراد</button></div>
+ <small>بياناتك محفوظة على هذا الجهاز فقط. استيراد ملف فردي يضيفه كملف جديد دون الكتابة فوق ملفاتك. آخر نسخة احتياطية: ${DB.lb?fmt(DB.lb):"لم تُنشأ بعد"}.</small>
+ <small>رمز الدخول قفل بسيط يمنع التصفح العابر وليس تشفيرًا.</small>
+ <button class="b bd" data-x="reset">مسح بيانات ${esc(cur().n)}</button><button class="b bd" data-x="resetall">مسح بيانات الأسرة كلها</button></div>`;
+ return "";}
+
+function render(keep){const y=scrollY,st=stats(),onb=V.t==="onb";
+ let h="";
+ if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>حفظ القرآن الكريم</h1><b class="gd">رحلتي من الفاتحة إلى الناس</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button></div></main>`;
+ else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":V.t;
+  h=`<header><div class="hi"><div><h1>حفظ القرآن الكريم</h1><small>رحلتي من الفاتحة إلى الناس</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
+  <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}</main>
+  <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
+ if(M&&M.pin)h+=`<div class="ov"><div class="c"><b>رمز الدخول (٤ إلى ٨ أرقام)</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="اتركه فارغًا لإزالة الرمز"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="pset">حفظ</button></div></div></div>`;else if(M)h+=`<div class="ov"><div class="c"><div>${M.msg}</div><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bd" data-x="yes">تأكيد</button></div></div></div>`;
+ $("app").innerHTML=h;
+ if(keep)scrollTo(0,y);else{const f=V.t==="det"&&V.f&&$("foc");if(f)f.scrollIntoView({block:"center"});else scrollTo(0,0)}
+ V.f=0}
+
+document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b)return;
+ const x=b.dataset.x,s=+b.dataset.s,a=+b.dataset.n,sv=V.s;
+ switch(x){
+ case"start":{const nm=(($("nm")||{}).value||"").trim().slice(0,20)||"أنا",id=uid();DB.ps[id]=mk(nm);DB.ps[id].d.on=1;sw(id);V.t="home";break}
+ case"sw":if(b.dataset.id!==DB.cur)sw(b.dataset.id);V.t="home";break;
+ case"pu":if($("lp").value===cur().pin)LK="";else{toast("الرمز غير صحيح");return}break;
+ case"addp":{const nm=$("nn").value.trim().slice(0,20);if(!nm){toast("اكتب اسم الفرد أولًا");return}const id=uid();DB.ps[id]=mk(nm);DB.ps[id].d.on=1;save();toast("أُضيف "+nm);break}
+ case"pin":{const id=b.dataset.id;if(DB.ps[id].pin&&id!==DB.cur){toast("افتح هذا الملف أولًا بالرمز");return}M={pin:id};render(1);return}
+ case"pset":{const v=$("pi").value.trim();if(v&&!/^\d{4,8}$/.test(v)){toast("الرمز من ٤ إلى ٨ أرقام");return}DB.ps[M.pin].pin=v;M=null;save();toast(v?"تم ضبط الرمز":"أُزيل الرمز");render(1);return}
+ case"delp":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur){toast("افتح هذا الملف أولًا بالرمز");return}ask("حذف ملف "+esc(q.n)+" وكل تقدمه نهائيًا؟",()=>{delete DB.ps[id];if(DB.cur===id){const k=Object.keys(DB.ps);if(k.length)sw(k[0]);else{DB.cur="";S=def();LK="";V.t="onb"}}save();render()});return}
+ case"go":V.t=b.dataset.v;break;
+ case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;break;
+ case"cont":V.t="det";V.s=S.last?S.last.s:1;V.f=1;R={};V.all=0;break;
+ case"tg":R[a]=(R[a]!==undefined?R[a]:V.all?2:0)===2?0:2;render(1);return;
+ case"hn":R[a]=1;render(1);return;
+ case"sa":V.all=1;R={};render(1);return;
+ case"ha":V.all=0;R={};render(1);return;
+ case"dl":if(QS!=="load")dlQ();return;
+ case"mk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="m"?"n":"m");save();render(1);return}
+ case"wk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="w"?"n":"w");save();render(1);return}
+ case"all":ask("تحديد كل آيات سورة "+N[sv-1]+" كمحفوظة؟",()=>{for(let i=1;i<=A[sv-1];i++)if(!S.r[sv+"_"+i])setA(sv,i,"m");save();toast("تم تحديد السورة");render(1)});return;
+ case"none":ask("إلغاء تحديد كل آيات سورة "+N[sv-1]+"؟ لا يمكن التراجع عن ذلك.",()=>{for(let i=1;i<=A[sv-1];i++)delete S.r[sv+"_"+i];save();toast("تم إلغاء التحديد");render(1)});return;
+ case"plan":S.plan=+b.dataset.v;save();break;
+ case"rv":{const k=reviewS(s);save();toast(k?"بارك الله فيك، تمت مراجعة "+n(k)+" آية":"لا شيء للمراجعة");break}
+ case"exp":case"expa":{const t=$("ta");DB.lb=ymd();t.value=JSON.stringify(x==="expa"?DB:{v:3,one:{n:cur().n,d:S}});save();t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast("تم النسخ")).catch(()=>toast("حدّد النص وانسخه يدويًا"))}catch(err){toast("حدّد النص وانسخه يدويًا")}return}
+ case"imp":{let o;try{o=JSON.parse($("ta").value)}catch(err){toast("النص غير صالح كنسخة احتياطية");return}
+  if(okDB(o)){ask("استبدال بيانات الأسرة كلها بالنسخة الملصقة؟",()=>{setDB(o);save();V.t="home";render()});return}
+  const one=o&&o.one&&o.one.d&&o.one.d.r?o.one:(o&&o.r?{n:"مستورد",d:o}:null);
+  if(!one||typeof one.d.r!=="object"){toast("النص غير صالح كنسخة احتياطية");return}
+  const id=uid();DB.ps[id]={n:String(one.n||"مستورد").slice(0,20),pin:"",d:Object.assign(def(),one.d)};save();toast("أُضيف كملف جديد");V.t="fam";break}
+ case"reset":ask("سيُحذف تقدم "+esc(cur().n)+" نهائيًا. هل أنت متأكد؟",()=>{const q=cur();q.d=def();q.d.on=1;S=q.d;save();V.t="home";render()});return;
+ case"resetall":ask("ستُحذف بيانات الأسرة كلها نهائيًا. تأكد أنك صدّرت نسخة احتياطية.",()=>{DB={cur:"",lb:"",ps:{}};S=def();LK="";save();V.t="onb";render()});return;
+ case"yes":{const f=M.fn;M=null;f();return}
+ case"no":M=null;render(1);return;
+ }
+ render()});
+document.addEventListener("input",e=>{if(e.target.id!=="q")return;const v=e.target.value.trim();document.querySelectorAll(".li").forEach(el=>el.style.display=el.dataset.q.includes(v)?"":"none")});
+if(!cur())idbGet().then(j=>{try{const o=JSON.parse(j);if(okDB(o)){setDB(o);V.t="home";render()}}catch(e){}});
+idbGet("quran").then(j=>{try{const q=JSON.parse(j);if(Array.isArray(q)&&q.length===114){Q=q;render(1)}}catch(e){}});
+if("serviceWorker" in navigator)try{navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
+render();
+</script>
+</body>
+</html>
