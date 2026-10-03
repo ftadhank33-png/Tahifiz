@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#064E43"><link rel="apple-touch-icon" href="icon-192.png">
-<title>حفظ القرآن الكريم — رحلتي من الفاتحة إلى الناس</title>
+<title>بُستاننا — رحلة العائلة مع كتاب الله</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri+Quran&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F8F6EF;--card:#fff;--fg:#2C3E50;--mut:#6b7280;--br:#EAE6DA;--pri:#064E43;--pri2:#0D7A68;--hd:#064E43;--gold:#C5A059;--warn:#D9A441;--chip:#F3F0E8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -63,6 +63,7 @@ textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--b
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:grid;place-items:center;padding:20px}
 .ov .c{max-width:340px;display:grid;gap:14px}.ov .row{justify-content:flex-end}
 #toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;transform:translateX(-50%);background:var(--pri);color:#fff;border:1px solid var(--gold);padding:8px 20px;border-radius:99px;font-size:13px;z-index:50;display:none}
+.cp{text-align:center;font-size:11px;color:var(--mut);padding:8px 4px}
 .warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:13px}
 </style>
 </head>
@@ -160,10 +161,10 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
 
 function render(keep){const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
- if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>حفظ القرآن الكريم</h1><b class="gd">رحلتي من الفاتحة إلى الناس</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button></div></main>`;
+ if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
  else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":V.t;
-  h=`<header><div class="hi"><div><h1>حفظ القرآن الكريم</h1><small>رحلتي من الفاتحة إلى الناس</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
-  <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}</main>
+  h=`<header><div class="hi"><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
+  <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}<footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></main>
   <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
  if(M&&M.pin)h+=`<div class="ov"><div class="c"><b>رمز الدخول (٤ إلى ٨ أرقام)</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="اتركه فارغًا لإزالة الرمز"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="pset">حفظ</button></div></div></div>`;else if(M)h+=`<div class="ov"><div class="c"><div>${M.msg}</div><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bd" data-x="yes">تأكيد</button></div></div></div>`;
  $("app").innerHTML=h;
