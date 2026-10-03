@@ -12,59 +12,59 @@
 :root[data-theme="dark"]{--bg:#0e1816;--card:#15231f;--fg:#e7ece9;--mut:#9fb0aa;--br:#243a34;--hd:#7fd6c6;--chip:#1d302b}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;padding-bottom:84px;line-height:1.6}
+body{font-size:calc(16px*var(--f,1));background:var(--bg);color:var(--fg);font-family:Tajawal,system-ui,sans-serif;padding-bottom:84px;line-height:1.6}
 button,textarea,input{font:inherit;color:inherit}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--pri);color:#F8F6EF;border-bottom:2px solid var(--gold)}
 .hi{max-width:720px;margin:auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.hi h1{font-size:16px;margin:0}.hi small{color:var(--gold);font-size:12px}
-.pill{max-width:120px;overflow:hidden;text-overflow:ellipsis;cursor:pointer;background:rgba(255,255,255,.12);border:1px solid rgba(197,160,89,.5);border-radius:99px;padding:3px 12px;font-size:12px;white-space:nowrap}
-.ib{background:none;border:0;color:#F8F6EF;font-size:20px;padding:6px;cursor:pointer}
+.hi h1{font-size:calc(16px*var(--f,1));margin:0}.hi small{color:var(--gold);font-size:calc(12px*var(--f,1))}
+.pill{max-width:120px;overflow:hidden;text-overflow:ellipsis;cursor:pointer;background:rgba(255,255,255,.12);border:1px solid rgba(197,160,89,.5);border-radius:99px;padding:3px 12px;font-size:calc(12px*var(--f,1));white-space:nowrap}
+.ib{background:none;border:0;color:#F8F6EF;font-size:calc(20px*var(--f,1));padding:6px;cursor:pointer}
 main{max-width:720px;margin:auto;padding:16px;display:grid;gap:14px}
-h2{margin:0;font-size:20px;color:var(--hd)}
+h2{margin:0;font-size:calc(20px*var(--f,1));color:var(--hd)}
 .c{background:var(--card);border:1px solid var(--br);border-radius:16px;padding:16px}
 .hero{background:linear-gradient(135deg,#064E43,#0D7A68);color:#fff;border-color:var(--gold)}
-.hero h2{color:#fff;font-size:34px}.gd{color:var(--gold)}.mu{color:var(--mut)}
+.hero h2{color:#fff;font-size:calc(34px*var(--f,1))}.gd{color:var(--gold)}.mu{color:var(--mut)}
 .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
-small{font-size:12px;color:var(--mut)}.hero small{color:rgba(255,255,255,.75)}.hero small.gd{color:var(--gold)}
+small{font-size:calc(12px*var(--f,1));color:var(--mut)}.hero small{color:rgba(255,255,255,.75)}.hero small.gd{color:var(--gold)}
 .bar{height:10px;background:rgba(127,127,127,.2);border-radius:99px;overflow:hidden;margin:10px 0}
 .bar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .4s}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.g2>div{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 10px}.g2 b{display:block}
 .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .act{text-align:right;cursor:pointer;display:block;width:100%}.act b{color:var(--hd);display:block}
 .b{border:0;border-radius:12px;padding:10px 16px;font-weight:700;cursor:pointer;background:var(--chip);border:1px solid var(--br)}
-.bp{background:var(--pri);color:#fff;border-color:var(--gold)}.bd{background:#b3261e;color:#fff;border:0}.big{padding:14px 28px;font-size:16px}
+.bp{background:var(--pri);color:#fff;border-color:var(--gold)}.bd{background:#b3261e;color:#fff;border:0}.big{padding:14px 28px;font-size:calc(16px*var(--f,1))}
 .li{display:flex;align-items:center;gap:12px;width:100%;text-align:right;cursor:pointer;padding:12px}
-.no{width:36px;height:36px;border-radius:10px;background:var(--chip);border:1px solid rgba(197,160,89,.4);display:grid;place-items:center;font-size:12px;font-weight:700;color:var(--hd)}
+.no{width:36px;height:36px;border-radius:10px;background:var(--chip);border:1px solid rgba(197,160,89,.4);display:grid;place-items:center;font-size:calc(12px*var(--f,1));font-weight:700;color:var(--hd)}
 .nm{flex:1}.nm b{display:block;color:var(--hd)}
 input.q{width:100%;padding:11px 14px;border-radius:12px;border:1px solid var(--br);background:var(--card)}
 .chs{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:8px}
 .ch{height:44px;border-radius:12px;border:1px solid var(--br);background:var(--chip);font-weight:700;cursor:pointer}
 .ch.m{background:var(--pri2);color:#fff;border-color:var(--pri2)}.ch.w{background:var(--warn);color:#2b1d00;border-color:var(--warn)}
-.lg{display:flex;gap:14px;font-size:12px;flex-wrap:wrap}.lg span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-left:5px;vertical-align:-1px;background:var(--chip);border:1px solid var(--br)}
+.lg{display:flex;gap:14px;font-size:calc(12px*var(--f,1));flex-wrap:wrap}.lg span:before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-left:5px;vertical-align:-1px;background:var(--chip);border:1px solid var(--br)}
 .lg .m:before{background:var(--pri2)}.lg .w:before{background:var(--warn)}
 .ay{background:var(--card);border:1px solid var(--br);border-radius:14px;padding:10px 12px}
-.nb{min-width:48px;height:44px;border-radius:12px;border:1px solid var(--br);background:var(--chip);font-weight:800;font-size:15px;cursor:pointer}
+.nb{min-width:48px;height:44px;border-radius:12px;border:1px solid var(--br);background:var(--chip);font-weight:800;font-size:calc(15px*var(--f,1));cursor:pointer}
 .nb.m{background:var(--pri2);color:#fff;border-color:var(--pri2)}.nb.w{background:var(--warn);color:#2b1d00;border-color:var(--warn)}
 .nb{display:grid;place-items:center;padding:0 8px}
-.ctl{display:flex;gap:6px}.ctl button{width:42px;height:42px;border-radius:10px;border:1px solid var(--br);background:var(--chip);cursor:pointer;font-size:16px}
+.ctl{display:flex;gap:6px}.ctl button{width:42px;height:42px;border-radius:10px;border:1px solid var(--br);background:var(--chip);cursor:pointer;font-size:calc(16px*var(--f,1))}
 .ctl .on{background:var(--pri2);color:#fff}.ctl .onw{background:var(--warn);color:#2b1d00}
-.qt{font-family:"Amiri Quran",Amiri,serif;font-size:25px;line-height:2.1;margin-top:10px;padding-top:10px;border-top:1px dashed var(--br)}
+.qt{font-family:"Amiri Quran",Amiri,serif;font-size:calc(25px*var(--q,1));line-height:2.1;margin-top:10px;padding-top:10px;border-top:1px dashed var(--br)}
 .opts{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.opts .on{background:var(--pri);color:#fff}
-.wk{display:flex;align-items:flex-end;gap:8px;height:110px}.wk div{flex:1;text-align:center;font-size:11px;color:var(--mut)}.wk i{display:block;background:var(--pri2);border-radius:6px 6px 0 0;min-height:3px;margin-bottom:4px}
-.st{text-align:center}.st b{display:block;font-size:26px;color:var(--hd)}
+.wk{display:flex;align-items:flex-end;gap:8px;height:110px}.wk div{flex:1;text-align:center;font-size:calc(12px*var(--f,1));color:var(--mut)}.wk i{display:block;background:var(--pri2);border-radius:6px 6px 0 0;min-height:3px;margin-bottom:4px}
+.st{text-align:center}.st b{display:block;font-size:calc(26px*var(--f,1));color:var(--hd)}
 nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:var(--pri);border-top:1px solid var(--gold);padding-bottom:env(safe-area-inset-bottom,0px)}
 .ni{max-width:720px;margin:auto;display:flex;justify-content:space-around}
-nav button{background:none;border:0;color:rgba(248,246,239,.7);padding:8px 10px;font-size:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center}
-nav button span{font-size:19px}nav button.on{color:var(--gold);font-weight:700}
+nav button{background:none;border:0;color:rgba(248,246,239,.7);padding:8px 10px;font-size:calc(12px*var(--f,1));cursor:pointer;display:flex;flex-direction:column;align-items:center}
+nav button span{font-size:calc(19px*var(--f,1))}nav button.on{color:var(--gold);font-weight:700}
 .onb{min-height:85vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
-.logo{width:92px;height:92px;border-radius:50%;background:var(--pri);border:4px solid var(--gold);display:grid;place-items:center;font-size:40px}
-.onb h1{margin:0;color:var(--hd);font-size:28px}.onb p{margin:0;max-width:360px}
-textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--br);background:var(--card);padding:10px;font-size:12px;direction:ltr}
+.logo{width:92px;height:92px;border-radius:50%;background:var(--pri);border:4px solid var(--gold);display:grid;place-items:center;font-size:calc(40px*var(--f,1))}
+.onb h1{margin:0;color:var(--hd);font-size:calc(28px*var(--f,1))}.onb p{margin:0;max-width:360px}
+textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--br);background:var(--card);padding:10px;font-size:calc(12px*var(--f,1));direction:ltr}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:grid;place-items:center;padding:20px}
 .ov .c{max-width:340px;display:grid;gap:14px}.ov .row{justify-content:flex-end}
-#toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;transform:translateX(-50%);background:var(--pri);color:#fff;border:1px solid var(--gold);padding:8px 20px;border-radius:99px;font-size:13px;z-index:50;display:none}
-.cp{text-align:center;font-size:11px;color:var(--mut);padding:8px 4px}
-.warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:13px}
+#toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;transform:translateX(-50%);background:var(--pri);color:#fff;border:1px solid var(--gold);padding:8px 20px;border-radius:99px;font-size:calc(13px*var(--f,1));z-index:50;display:none}
+.cp{text-align:center;font-size:calc(12px*var(--f,1));color:var(--mut);padding:8px 4px}
+.warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:calc(13px*var(--f,1))}
 </style>
 </head>
 <body>
@@ -151,7 +151,7 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
    rows+=`<div class="ay"><div class="row"><button class="nb ${r?r.s:""}" ${a===f?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button>${P?`<small style="flex:1;padding:0 10px">ص ${n(P[s-1][a-1])}</small>`:""}<div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
   return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
   <div class="c"><div class="row"><span>${n(st.ps[s])} / ${n(c)} آية</span><span class="gd">${n(Math.round(st.ps[s]/c*100))}٪</span></div>${bar(st.ps[s]/c*100)}
-  <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
+  <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button><button class="b" data-x="qm" aria-label="تصغير الآيات">أ−</button><button class="b" data-x="qp" aria-label="تكبير الآيات">أ+</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
   ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل (الرسم العثماني).</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
   ${Q&&!P?'<small>لإظهار رقم صفحة المصحف حدّث بيانات النص: <button class="b" data-x="dl">تحديث</button></small>':""}
   <small>للتحقق من الآيات ارجع إلى المصحف الورقي. مصدر النص: مشروع تنزيل (الرسم العثماني).</small>
@@ -182,14 +182,15 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  return `<h2>بُستان العائلة</h2><div class="c st"><small>مجموع محفوظ الأسرة</small><b>${n(tot)} آية</b></div><small>المس اسمك للدخول إلى ملفك. الجميع يرون تقدم بعضهم، والإدارة للأب فقط.</small>${loc}${rem}
  <div class="c" style="display:grid;gap:8px"><b>مشاركة التقدم بين الأجهزة</b><small>لتظهر بطاقتك عند أسرتك على جهاز آخر: انسخ رمز تقدمك وأرسله لهم، وألصق هنا رموزهم.</small><textarea id="tb" placeholder="ألصق رمز فرد هنا"></textarea><div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b bp" data-x="snx">نسخ رمز تقدمي</button><button class="b" data-x="sni">استيراد رمز فرد</button></div></div>
  <div class="c" style="display:grid;gap:8px"><b>إدارة الأسرة (الأب)</b>${!DB.admin?'<div class="warn">لم يُضبط رمز الأب بعد، فيستطيع أي فرد حذف الملفات. اضبطه الآن.</div><button class="b bp" data-x="apin">ضبط رمز الأب</button>':adm?`<div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b" data-x="apin">تغيير رمز الأب</button><button class="b" data-x="alk">قفل الإدارة</button></div><input class="q" id="nn" maxlength="20" placeholder="اسم الفرد الجديد"><button class="b bp" data-x="addp">إضافة فرد</button>`:'<button class="b bp" data-x="aunlock">فتح الإدارة برمز الأب</button>'}${!DB.admin?'<input class="q" id="nn" maxlength="20" placeholder="اسم الفرد الجديد"><button class="b bp" data-x="addp">إضافة فرد</button>':""}</div>`}
- if(t==="set")return `<h2>الإعدادات والنسخ الاحتياطي</h2><div class="c" style="display:grid;gap:10px"><textarea id="ta" placeholder="ألصق هنا نسخة احتياطية للاستيراد"></textarea>
+ if(t==="set")return `<h2>الإعدادات والنسخ الاحتياطي</h2><div class="c" style="display:grid;gap:10px"><b>حجم الخط (لهذا الملف)</b><small>الواجهة</small><div class="opts" style="grid-template-columns:repeat(3,1fr)">${["عادي","كبير","أكبر"].map((l,i)=>`<button class="b ${(S.fs||0)===i?"on":""}" data-x="fs" data-v="${i}">${l}</button>`).join("")}</div><small>الآيات</small><div class="opts">${["عادي","كبير","أكبر","ضخم"].map((l,i)=>`<button class="b ${(S.qs||0)===i?"on":""}" data-x="qs" data-v="${i}">${l}</button>`).join("")}</div></div><div class="c" style="display:grid;gap:10px"><textarea id="ta" placeholder="ألصق هنا نسخة احتياطية للاستيراد"></textarea>
  <div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap"><button class="b bp" data-x="expa">تصدير الأسرة كلها</button><button class="b" data-x="exp">تصدير ${esc(cur().n)} فقط</button><button class="b" data-x="imp">استيراد</button></div>
  <small>بياناتك محفوظة على هذا الجهاز فقط. استيراد ملف فردي يضيفه كملف جديد دون الكتابة فوق ملفاتك. آخر نسخة احتياطية: ${DB.lb?fmt(DB.lb):"لم تُنشأ بعد"}.</small>
  <small>رمز الدخول قفل بسيط يمنع التصفح العابر وليس تشفيرًا.</small>
  <button class="b bd" data-x="reset">مسح بيانات ${esc(cur().n)}</button><button class="b bd" data-x="resetall">مسح بيانات الأسرة كلها</button></div>`;
  return "";}
 
-function render(keep){const y=scrollY,st=stats(),onb=V.t==="onb";
+function fz(){const r=document.documentElement.style;r.setProperty("--f",[1,1.15,1.3][S.fs||0]);r.setProperty("--q",[1,1.25,1.5,1.8][S.qs||0])}
+function render(keep){fz();const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
  if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
  else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
@@ -234,6 +235,10 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"qno":qgrade(false);break;
  case"hq2":pickHal();break;
  case"hq3":{const id=b.dataset.id,q=DB.ps[id];if(q.pin&&id!==DB.cur&&!(DB.admin&&AD)){toast("افتح ملفه أولًا بالرمز");return}const k=reviewS(DB.hq.s,q.d);save();toast(k?"بارك الله فيه، تمت مراجعة "+n(k)+" آية":"لا آيات مستحقة له في هذه السورة، وتلاوتها مفيدة على أي حال");render(1);return}
+ case"fs":S.fs=+b.dataset.v;save();render(1);return;
+ case"qs":S.qs=+b.dataset.v;save();render(1);return;
+ case"qm":S.qs=Math.max(0,(S.qs||0)-1);save();render(1);return;
+ case"qp":S.qs=Math.min(3,(S.qs||0)+1);save();render(1);return;
  case"mk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="m"?"n":"m");save();render(1);return}
  case"wk":{const r=S.r[sv+"_"+a];setA(sv,a,r&&r.s==="w"?"n":"w");save();render(1);return}
  case"all":ask("تحديد كل آيات سورة "+N[sv-1]+" كمحفوظة؟",()=>{for(let i=1;i<=A[sv-1];i++)if(!S.r[sv+"_"+i])setA(sv,i,"m");save();toast("تم تحديد السورة");render(1)});return;
