@@ -126,6 +126,8 @@ function mkr(s,a){if(!H)return "";const h=H[s-1][a-1],pv=a>1?H[s-1][a-2]:(s>1?H[
 function hstats(){const ju=Array(31).fill(0),jm=Array(31).fill(0),js={},hz=Array(61).fill(0),hm=Array(61).fill(0),hs={};
  for(let s=1;s<=114;s++)for(let a=1;a<=A[s-1];a++){const q=H[s-1][a-1],z=Math.ceil(q/4),j=Math.ceil(q/8),m=S.r[s+"_"+a]?1:0;ju[j]++;jm[j]+=m;hz[z]++;hm[z]+=m;if(!js[j])js[j]=[s,a];if(!hs[z])hs[z]=[s,a]}
  return{ju,jm,js,hz,hm,hs}}
+const nk=()=>V.t+"|"+V.s+"|"+(V.rg?V.rg.k+V.rg.n:"");
+const hs=()=>({t:V.t,s:V.s,rg:V.rg});
 function bump(k=1){const t=ymd();S.act[t]=(S.act[t]||0)+k}
 function setA(s,a,st){const k=s+"_"+a,t=ymd(),o=S.r[k];
  if(st==="m"){S.r[k]={s:"m",d:o?o.d:t,l:o?o.l:0,n:o?o.n:add(t,1)};if(!o)bump()}
@@ -154,13 +156,17 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  <button class="c act" data-x="go" data-v="plan"><small>موعد الختم المتوقع</small><b>${st.m?fmt(st.fin):"ابدأ لتظهر التوقعات"}</b></button><button class="c act" data-x="qz0"><small>اختبر حفظك</small><b>أول الآية وأكمل</b></button><button class="c act" data-x="go" data-v="hal"><small>حلقتنا</small><b>مراجعة العائلة معًا</b></button></div>`;
  if(t==="sur"){const b=V.b||0,tabs=`<div class="opts" style="grid-template-columns:repeat(3,1fr)">${["السور","الأجزاء","الأحزاب"].map((l,i)=>`<button class="b ${b===i?"on":""}" data-x="bt" data-v="${i}">${l}</button>`).join("")}</div>`;
  if(b&&!H)return `<h2>الفهرس</h2>${tabs}<div class="c" style="display:grid;gap:8px"><small>تحتاج الأجزاء والأحزاب إلى تحديث بيانات النص مرة واحدة، ويلزم اتصال بالإنترنت.</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تحديث بيانات النص"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. أعد المحاولة.</div>':""}</div>`;
- if(b){const h=hstats(),J1=b===1;return `<h2>${J1?"الأجزاء":"الأحزاب"}</h2>${tabs}`+Array.from({length:J1?30:60},(_,i)=>{const k=i+1,tot=(J1?h.ju:h.hz)[k],mm=(J1?h.jm:h.hm)[k],q0=(J1?h.js:h.hs)[k];return `<button class="c li" data-x="oj" data-s="${q0[0]}" data-n="${q0[1]}"><span class="no">${n(k)}</span><span class="nm"><b>${J1?"الجزء":"الحزب"} ${n(k)}</b><small>يبدأ من سورة ${N[q0[0]-1]}، الآية ${n(q0[1])}</small></span><span class="gd">${n(Math.round(mm/tot*100))}٪</span></button>`}).join("")}
+ if(b){const h=hstats(),J1=b===1;return `<h2>${J1?"الأجزاء":"الأحزاب"}</h2>${tabs}`+Array.from({length:J1?30:60},(_,i)=>{const k=i+1,tot=(J1?h.ju:h.hz)[k],mm=(J1?h.jm:h.hm)[k],q0=(J1?h.js:h.hs)[k];return `<button class="c li" data-x="rg" data-v="${J1?"j":"h"}" data-n="${k}"><span class="no">${n(k)}</span><span class="nm"><b>${J1?"الجزء":"الحزب"} ${n(k)}</b><small>يبدأ من سورة ${N[q0[0]-1]}، الآية ${n(q0[1])}</small></span><span class="gd">${n(Math.round(mm/tot*100))}٪</span></button>`}).join("")}
  return `<h2>الفهرس</h2>${tabs}<input class="q" id="q" placeholder="ابحث عن سورة…">`+N.map((nm,i)=>`<button class="c li" data-x="open" data-s="${i+1}" data-q="${nm}"><span class="no">${n(i+1)}</span><span class="nm"><b>سورة ${nm}</b><small>${n(A[i])} آية</small></span><span class="gd">${n(Math.round(st.ps[i+1]/A[i]*100))}٪</span></button>`).join("")}
+ if(t==="rg"){const g=V.rg,k8=g.k==="j"?8:4,sg=[];
+ for(let s=1;s<=114;s++){let f=0,l=0,m=0;for(let a=1;a<=A[s-1];a++){if(Math.ceil(H[s-1][a-1]/k8)===g.n){if(!f)f=a;l=a;if(S.r[s+"_"+a])m++}}if(f)sg.push({s,f,l,m})}
+ const tot=sg.reduce((x,y)=>x+y.l-y.f+1,0),mm=sg.reduce((x,y)=>x+y.m,0);
+ return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>${g.k==="j"?"الجزء":"الحزب"} ${n(g.n)}</h2></div><div class="c"><div class="row"><span>${n(mm)} / ${n(tot)} آية</span><span class="gd">${n(Math.round(mm/tot*100))}٪</span></div>${bar(mm/tot*100)}<small>عدد السور: ${n(sg.length)}</small></div>`+sg.map(x=>`<button class="c li" data-x="oj" data-s="${x.s}" data-n="${x.f}"><span class="no">${n(x.s)}</span><span class="nm"><b>سورة ${N[x.s-1]}</b><small>الآيات ${n(x.f)} – ${n(x.l)} (${n(x.l-x.f+1)} آية)</small></span><span class="gd">${n(Math.round(x.m/(x.l-x.f+1)*100))}٪</span></button>`).join("")}
  if(t==="det"){const s=V.s,c=A[s-1];let f=0,rows="";
   for(let a=1;a<=c;a++){const r=S.r[s+"_"+a];if(!r&&!f)f=a;
    const tg=V.fa>0&&V.fa<=c?V.fa:0,q=R[a]!==undefined?R[a]:V.all?2:0,tx=Q?Q[s-1][a-1]:"",w=tx.split(" ").slice(0,2).join(" ");
    rows+=`<div class="ay">${mkr(s,a)}<div class="row"><button class="nb ${r?r.s:""}" ${a===(tg||f)?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button>${P?`<small style="flex:1;padding:0 10px">ص ${n(P[s-1][a-1])}</small>`:""}<div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
-  return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
+  return `<div class="row"><button class="b" data-x="go" data-v="${V.from==="rg"&&V.rg?"rg":"sur"}">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
   <div class="c"><div class="row"><span>${n(st.ps[s])} / ${n(c)} آية</span><span class="gd">${n(Math.round(st.ps[s]/c*100))}٪</span></div>${bar(st.ps[s]/c*100)}
   <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button><button class="b" data-x="qm" aria-label="تصغير الآيات">أ−</button><button class="b" data-x="qp" aria-label="تكبير الآيات">أ+</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
   ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل (الرسم العثماني).</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
@@ -203,10 +209,10 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
 function fz(){const r=document.documentElement.style;r.setProperty("--f",[1,1.15,1.3][S.fs||0]);r.setProperty("--q",[1,1.25,1.5,1.8][S.qs||0])}
 function render(keep){fz();
  if(V.t==="det"&&cur()&&S.lo!==V.s){S.lo=V.s;S.rc=[V.s].concat((S.rc||[]).filter(x=>x!==V.s)).slice(0,5);save()}
- if(!keep&&V.t+"|"+V.s!==NAV){NAV=V.t+"|"+V.s;try{history.pushState({t:V.t,s:V.s},"")}catch(e){}}const y=scrollY,st=stats(),onb=V.t==="onb";
+ if(!keep&&nk()!==NAV){NAV=nk();try{history.pushState(hs(),"")}catch(e){}}const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
  if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
- else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
+ else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=(V.t==="det"||V.t==="rg")?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
   h=`<header><div class="hi"><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
   <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}<footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></main>
   <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
@@ -235,8 +241,9 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"pset":{const v=$("pi").value.trim();if(v&&!/^\d{4,8}$/.test(v)){toast("الرمز من ٤ إلى ٨ أرقام");return}if(M.pin==="__a"){DB.admin=v;AD=!!v}else DB.ps[M.pin].pin=v;M=null;save();toast(v?"تم ضبط الرمز":"أُزيل الرمز");render(1);return}
  case"delp":{const id=b.dataset.id,q=DB.ps[id];gate(()=>ask("حذف ملف "+esc(q.n)+" وكل تقدمه نهائيًا؟",()=>{delete DB.ps[id];if(DB.cur===id){const k=Object.keys(DB.ps);if(k.length)sw(k[0]);else{DB.cur="";S=def();LK="";V.t="onb"}}save();render()}));return}
  case"go":V.t=b.dataset.v;break;
- case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=S.last&&S.last.s===s?S.last.a:0;break;
- case"oj":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=a;break;
+ case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=S.last&&S.last.s===s?S.last.a:0;V.from="";break;
+ case"oj":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=a;V.from="rg";break;
+ case"rg":V.t="rg";V.rg={k:b.dataset.v,n:a};break;
  case"bt":V.b=+b.dataset.v;break;
  case"cont":V.t="det";V.s=S.last?S.last.s:1;V.f=1;R={};V.all=0;V.fa=0;break;
  case"tg":R[a]=(R[a]!==undefined?R[a]:V.all?2:0)===2?0:2;render(1);return;
@@ -274,9 +281,9 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  render()});
 document.addEventListener("input",e=>{if(e.target.id!=="q")return;const v=e.target.value.trim();document.querySelectorAll(".li").forEach(el=>el.style.display=el.dataset.q.includes(v)?"":"none")});
 if(!cur())idbGet().then(j=>{try{const o=JSON.parse(j);if(okDB(o)){setDB(o);V.t="home";render()}}catch(e){}});
-let NAV=V.t+"|"+V.s;
-try{if(V.t==="det"){history.replaceState({t:"home",s:1},"");history.pushState({t:V.t,s:V.s},"")}else history.replaceState({t:V.t,s:V.s},"")}catch(e){}
-window.addEventListener("popstate",e=>{const q=e.state||{t:"home",s:1};V.t=!cur()?"onb":(q.t==="onb"?"home":q.t);V.s=q.s||V.s;NAV=V.t+"|"+V.s;M=null;render()});
+let NAV=nk();
+try{if(V.t==="det"){history.replaceState({t:"home",s:1},"");history.pushState(hs(),"")}else history.replaceState(hs(),"")}catch(e){}
+window.addEventListener("popstate",e=>{const q=e.state||{t:"home",s:1};V.t=!cur()?"onb":(q.t==="onb"?"home":q.t);V.s=q.s||V.s;V.rg=q.rg||V.rg;NAV=nk();M=null;render()});
 idbGet("qmeta").then(j=>{try{const h=JSON.parse(j);if(Array.isArray(h)&&h.length===114){H=h;render(1)}}catch(e){}});
 idbGet("qpages").then(j=>{try{const p=JSON.parse(j);if(Array.isArray(p)&&p.length===114){P=p;render(1)}}catch(e){}});
 idbGet("quran").then(j=>{try{const q=JSON.parse(j);if(Array.isArray(q)&&q.length===114){Q=q;render(1)}}catch(e){}});
