@@ -98,7 +98,7 @@ let S=cur()?cur().d:def(),LK=cur()&&cur().pin?DB.cur:"";
 function save(){const j=JSON.stringify(DB);try{localStorage.setItem("qh_v3",j)}catch(e){mem=true}idbSet(j)}
 function sw(id){DB.cur=id;S=DB.ps[id].d;LK=DB.ps[id].pin?id:"";save()}
 function setDB(x){for(const k in x.ps){const q=x.ps[k];q.pin=q.pin?String(q.pin):"";q.n=String(q.n||"؟").slice(0,20);q.d=Object.assign(def(),q.d)}DB=x;S=cur().d;LK=cur().pin?DB.cur:""}
-let V={t:cur()?"home":"onb",s:1,f:0},M=null,Q=null,P=null,QZ=null,QS="",R={},AD=false;
+let V={t:cur()?"home":"onb",s:1,f:0,fa:0},M=null,Q=null,P=null,H=null,QZ=null,QS="",R={},AD=false;
 
 const cl=t=>String(t).replace(/\uFEFF/g,"").trim();
 async function dlQ(){QS="load";render(1);
@@ -108,6 +108,8 @@ async function dlQ(){QS="load";render(1);
   if(tot!==TOT||q.some(a=>a.some(t=>!t)))throw 0;
   await idbSet(JSON.stringify(q),"quran");Q=q;
   const pg=ss.map(su=>su.ayahs.map(y=>+y.page||0));if(pg.every(a=>a.every(v=>v>=1&&v<=604))){await idbSet(JSON.stringify(pg),"qpages");P=pg}
+  const hh=ss.map(su=>su.ayahs.map(y=>+y.hizbQuarter||0));let ph=0,okh=true;hh.forEach(r=>r.forEach(v=>{if(v<ph||v<1||v>240)okh=false;ph=v}));
+  if(okh&&ph===240){await idbSet(JSON.stringify(hh),"qmeta");H=hh}
   QS="ok";toast("تم تنزيل النص")}catch(e){QS="err"}render(1)}
 function qpick(){const t=ymd(),ks=Object.keys(S.r);if(!ks.length)return null;const d=ks.filter(k=>S.r[k].n<=t),pool=d.length?d:ks;let k;do{k=pool[Math.floor(Math.random()*pool.length)]}while(pool.length>1&&QZ&&QZ.k===k);return k}
 function qgrade(ok){const r=S.r[QZ.k],t=ymd();if(r){if(ok){r.l=Math.min(r.l+1,5);r.n=add(t,IV[r.l]);r.s="m"}else{r.s="w";r.l=0;r.n=add(t,1)}bump()}
@@ -115,9 +117,15 @@ function qgrade(ok){const r=S.r[QZ.k],t=ymd();if(r){if(ok){r.l=Math.min(r.l+1,5)
 function pickHal(){const any=Array(115).fill(0);Object.keys(DB.ps).forEach(id=>{const x=stats(DB.ps[id].d);for(let i=1;i<=114;i++)if(x.ps[i])any[i]++});
  let c=[];for(let i=1;i<=114;i++)if(any[i]>=2)c.push(i);if(!c.length)for(let i=1;i<=114;i++)if(any[i])c.push(i);if(!c.length)c=[1];
  let h;do{h=c[Math.floor(Math.random()*c.length)]}while(c.length>1&&DB.hq&&DB.hq.s===h);DB.hq={s:h,d:ymd()};save()}
+if(cur()&&cur().d.lo&&!LK){V.t="det";V.s=cur().d.lo;V.f=1;const l=cur().d.last;V.fa=l&&l.s===V.s?l.a:0}
 const can=()=>!DB.admin||AD;
 function gate(fn){if(can()){fn();return}M={ap:1,fn};render(1)}
 function snap(){const x=stats(S);return "BSN1:"+btoa(unescape(encodeURIComponent(JSON.stringify({id:DB.cur,n:cur().n,t:ymd(),m:x.m,c:x.c,due:x.due,w:x.w,done:x.done}))))}
+function mkr(s,a){if(!H)return "";const h=H[s-1][a-1],pv=a>1?H[s-1][a-2]:(s>1?H[s-2][A[s-2]-1]:0);if(h===pv)return "";
+ return `<small class="gd" style="display:block;margin-bottom:6px">${h%8===1?"الجزء "+n((h-1)/8+1)+" • ":""}${["بداية الحزب ","ربع الحزب ","نصف الحزب ","ثلاثة أرباع الحزب "][(h-1)%4]+n(Math.ceil(h/4))}</small>`}
+function hstats(){const ju=Array(31).fill(0),jm=Array(31).fill(0),js={},hz=Array(61).fill(0),hm=Array(61).fill(0),hs={};
+ for(let s=1;s<=114;s++)for(let a=1;a<=A[s-1];a++){const q=H[s-1][a-1],z=Math.ceil(q/4),j=Math.ceil(q/8),m=S.r[s+"_"+a]?1:0;ju[j]++;jm[j]+=m;hz[z]++;hm[z]+=m;if(!js[j])js[j]=[s,a];if(!hs[z])hs[z]=[s,a]}
+ return{ju,jm,js,hz,hm,hs}}
 function bump(k=1){const t=ymd();S.act[t]=(S.act[t]||0)+k}
 function setA(s,a,st){const k=s+"_"+a,t=ymd(),o=S.r[k];
  if(st==="m"){S.r[k]={s:"m",d:o?o.d:t,l:o?o.l:0,n:o?o.n:add(t,1)};if(!o)bump()}
@@ -140,20 +148,23 @@ function ask(msg,fn){M={msg,fn};render(1)}
 function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  if(t==="home")return `${st.m>0&&(!DB.lb||DB.lb<add(st.t,-7))?'<div class="warn">مضى أكثر من أسبوع على آخر نسخة احتياطية. <button class="b" data-x="go" data-v="set">نسخ احتياطي</button></div>':""}<div class="c hero"><div class="row"><div><small class="gd">نسبة الحفظ الإجمالية</small><h2>${n(op)}٪</h2></div><span class="pill">${n(st.m)} / ${n(TOT)} آية</span></div>${bar(op)}
  <div class="g2"><div><small>السور المكتملة</small><b>${n(st.done)} سورة</b></div><div><small>آخر موضع</small><b>${L?"سورة "+N[L.s-1]+" ("+n(L.a)+")":"لم تبدأ بعد"}</b></div></div></div>
- <div class="c"><div class="row"><b>هدف اليوم</b><span>${n(st.td)} / ${n(S.plan)} آية جديدة</span></div>${bar(st.td/S.plan*100)}</div>
+ ${S.rc&&S.rc.length?`<div class="c" style="display:grid;gap:8px"><small>آخر ما فتحتَ</small><div class="row" style="justify-content:flex-start;gap:8px;flex-wrap:wrap">${S.rc.map(i=>`<button class="b" data-x="open" data-s="${i}">${N[i-1]}</button>`).join("")}</div></div>`:""}<div class="c"><div class="row"><b>هدف اليوم</b><span>${n(st.td)} / ${n(S.plan)} آية جديدة</span></div>${bar(st.td/S.plan*100)}</div>
  <div class="g3"><button class="c act" data-x="cont"><small>${L?"تابع الحفظ":"ابدأ الحفظ"}</small><b>سورة ${N[(L?L.s:1)-1]}</b></button>
  <button class="c act" data-x="go" data-v="rev"><small>مراجعة اليوم</small><b>${st.due?n(st.due)+" آية مستحقة":"لا شيء مستحق"}</b></button>
  <button class="c act" data-x="go" data-v="plan"><small>موعد الختم المتوقع</small><b>${st.m?fmt(st.fin):"ابدأ لتظهر التوقعات"}</b></button><button class="c act" data-x="qz0"><small>اختبر حفظك</small><b>أول الآية وأكمل</b></button><button class="c act" data-x="go" data-v="hal"><small>حلقتنا</small><b>مراجعة العائلة معًا</b></button></div>`;
- if(t==="sur")return `<h2>فهرس السور</h2><input class="q" id="q" placeholder="ابحث عن سورة…">`+N.map((nm,i)=>`<button class="c li" data-x="open" data-s="${i+1}" data-q="${nm}"><span class="no">${n(i+1)}</span><span class="nm"><b>سورة ${nm}</b><small>${n(A[i])} آية</small></span><span class="gd">${n(Math.round(st.ps[i+1]/A[i]*100))}٪</span></button>`).join("");
+ if(t==="sur"){const b=V.b||0,tabs=`<div class="opts" style="grid-template-columns:repeat(3,1fr)">${["السور","الأجزاء","الأحزاب"].map((l,i)=>`<button class="b ${b===i?"on":""}" data-x="bt" data-v="${i}">${l}</button>`).join("")}</div>`;
+ if(b&&!H)return `<h2>الفهرس</h2>${tabs}<div class="c" style="display:grid;gap:8px"><small>تحتاج الأجزاء والأحزاب إلى تحديث بيانات النص مرة واحدة، ويلزم اتصال بالإنترنت.</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تحديث بيانات النص"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. أعد المحاولة.</div>':""}</div>`;
+ if(b){const h=hstats(),J1=b===1;return `<h2>${J1?"الأجزاء":"الأحزاب"}</h2>${tabs}`+Array.from({length:J1?30:60},(_,i)=>{const k=i+1,tot=(J1?h.ju:h.hz)[k],mm=(J1?h.jm:h.hm)[k],q0=(J1?h.js:h.hs)[k];return `<button class="c li" data-x="oj" data-s="${q0[0]}" data-n="${q0[1]}"><span class="no">${n(k)}</span><span class="nm"><b>${J1?"الجزء":"الحزب"} ${n(k)}</b><small>يبدأ من سورة ${N[q0[0]-1]}، الآية ${n(q0[1])}</small></span><span class="gd">${n(Math.round(mm/tot*100))}٪</span></button>`}).join("")}
+ return `<h2>الفهرس</h2>${tabs}<input class="q" id="q" placeholder="ابحث عن سورة…">`+N.map((nm,i)=>`<button class="c li" data-x="open" data-s="${i+1}" data-q="${nm}"><span class="no">${n(i+1)}</span><span class="nm"><b>سورة ${nm}</b><small>${n(A[i])} آية</small></span><span class="gd">${n(Math.round(st.ps[i+1]/A[i]*100))}٪</span></button>`).join("")}
  if(t==="det"){const s=V.s,c=A[s-1];let f=0,rows="";
   for(let a=1;a<=c;a++){const r=S.r[s+"_"+a];if(!r&&!f)f=a;
-   const q=R[a]!==undefined?R[a]:V.all?2:0,tx=Q?Q[s-1][a-1]:"",w=tx.split(" ").slice(0,2).join(" ");
-   rows+=`<div class="ay"><div class="row"><button class="nb ${r?r.s:""}" ${a===f?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button>${P?`<small style="flex:1;padding:0 10px">ص ${n(P[s-1][a-1])}</small>`:""}<div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
+   const tg=V.fa>0&&V.fa<=c?V.fa:0,q=R[a]!==undefined?R[a]:V.all?2:0,tx=Q?Q[s-1][a-1]:"",w=tx.split(" ").slice(0,2).join(" ");
+   rows+=`<div class="ay">${mkr(s,a)}<div class="row"><button class="nb ${r?r.s:""}" ${a===(tg||f)?'id="foc" ':""}data-x="tg" data-n="${a}" aria-label="إظهار الآية">${n(a)}</button>${P?`<small style="flex:1;padding:0 10px">ص ${n(P[s-1][a-1])}</small>`:""}<div class="ctl"><button data-x="hn" data-n="${a}" aria-label="تلميح">💡</button><button class="${r&&r.s==="m"?"on":""}" data-x="mk" data-n="${a}" aria-label="محفوظة">✓</button><button class="${r&&r.s==="w"?"onw":""}" data-x="wk" data-n="${a}" aria-label="ضعيفة">⚠</button></div></div>${q===2&&tx?`<div class="qt">${tx}</div>`:q===1&&tx?`<div class="qt">${w} …</div>`:""}</div>`}
   return `<div class="row"><button class="b" data-x="go" data-v="sur">رجوع ›</button><h2>سورة ${N[s-1]}</h2></div>
   <div class="c"><div class="row"><span>${n(st.ps[s])} / ${n(c)} آية</span><span class="gd">${n(Math.round(st.ps[s]/c*100))}٪</span></div>${bar(st.ps[s]/c*100)}
   <div class="row" style="gap:8px;justify-content:flex-start;flex-wrap:wrap"><button class="b bp" data-x="all">حفظ الكل</button><button class="b" data-x="none">إلغاء الكل</button><button class="b" data-x="qm" aria-label="تصغير الآيات">أ−</button><button class="b" data-x="qp" aria-label="تكبير الآيات">أ+</button>${Q?'<button class="b" data-x="sa">إظهار الكل</button><button class="b" data-x="ha">إخفاء الكل</button>':""}</div></div>
   ${Q?"":`<div class="c" style="display:grid;gap:8px"><b>نص المصحف غير محمّل</b><small>يُنزَّل مرة واحدة ثم يُحفظ على جهازك ويعمل بلا إنترنت. المصدر: نص تنزيل (الرسم العثماني).</small><button class="b bp" data-x="dl">${QS==="load"?"جارٍ التنزيل…":"تنزيل نص المصحف"}</button>${QS==="err"?'<div class="warn">تعذّر التنزيل. تأكد من الاتصال وأعد المحاولة.</div>':""}</div>`}
-  ${Q&&!P?'<small>لإظهار رقم صفحة المصحف حدّث بيانات النص: <button class="b" data-x="dl">تحديث</button></small>':""}
+  ${Q&&(!P||!H)?'<small>لإظهار الصفحات والأجزاء والأحزاب حدّث بيانات النص: <button class="b" data-x="dl">تحديث</button></small>':""}
   <small>للتحقق من الآيات ارجع إلى المصحف الورقي. مصدر النص: مشروع تنزيل (الرسم العثماني).</small>
   <small>الآيات مخفية: احفظ الآية ثم المس رقمها لتتحقق منها. 💡 يُظهر أول كلمتين، ✓ محفوظة، ⚠ ضعيفة وتحتاج مراجعة.</small>${rows}`}
  if(t==="plan")return `<h2>خطة الحفظ</h2><div class="c" style="display:grid;gap:12px"><b>عدد الآيات الجديدة يوميًا</b><div class="opts">${[3,5,10,20].map(v=>`<button class="b ${S.plan===v?"on":""}" data-x="plan" data-v="${v}">${n(v)}</button>`).join("")}</div>
@@ -190,7 +201,9 @@ function view(st){const t=V.t,L=S.last,op=(st.m/TOT*100).toFixed(2);
  return "";}
 
 function fz(){const r=document.documentElement.style;r.setProperty("--f",[1,1.15,1.3][S.fs||0]);r.setProperty("--q",[1,1.25,1.5,1.8][S.qs||0])}
-function render(keep){fz();const y=scrollY,st=stats(),onb=V.t==="onb";
+function render(keep){fz();
+ if(V.t==="det"&&cur()&&S.lo!==V.s){S.lo=V.s;S.rc=[V.s].concat((S.rc||[]).filter(x=>x!==V.s)).slice(0,5);save()}
+ if(!keep&&V.t+"|"+V.s!==NAV){NAV=V.t+"|"+V.s;try{history.pushState({t:V.t,s:V.s},"")}catch(e){}}const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
  if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
  else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=V.t==="det"?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
@@ -222,8 +235,10 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  case"pset":{const v=$("pi").value.trim();if(v&&!/^\d{4,8}$/.test(v)){toast("الرمز من ٤ إلى ٨ أرقام");return}if(M.pin==="__a"){DB.admin=v;AD=!!v}else DB.ps[M.pin].pin=v;M=null;save();toast(v?"تم ضبط الرمز":"أُزيل الرمز");render(1);return}
  case"delp":{const id=b.dataset.id,q=DB.ps[id];gate(()=>ask("حذف ملف "+esc(q.n)+" وكل تقدمه نهائيًا؟",()=>{delete DB.ps[id];if(DB.cur===id){const k=Object.keys(DB.ps);if(k.length)sw(k[0]);else{DB.cur="";S=def();LK="";V.t="onb"}}save();render()}));return}
  case"go":V.t=b.dataset.v;break;
- case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;break;
- case"cont":V.t="det";V.s=S.last?S.last.s:1;V.f=1;R={};V.all=0;break;
+ case"open":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=S.last&&S.last.s===s?S.last.a:0;break;
+ case"oj":V.t="det";V.s=s;V.f=1;R={};V.all=0;V.fa=a;break;
+ case"bt":V.b=+b.dataset.v;break;
+ case"cont":V.t="det";V.s=S.last?S.last.s:1;V.f=1;R={};V.all=0;V.fa=0;break;
  case"tg":R[a]=(R[a]!==undefined?R[a]:V.all?2:0)===2?0:2;render(1);return;
  case"hn":R[a]=1;render(1);return;
  case"sa":V.all=1;R={};render(1);return;
@@ -259,6 +274,10 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b
  render()});
 document.addEventListener("input",e=>{if(e.target.id!=="q")return;const v=e.target.value.trim();document.querySelectorAll(".li").forEach(el=>el.style.display=el.dataset.q.includes(v)?"":"none")});
 if(!cur())idbGet().then(j=>{try{const o=JSON.parse(j);if(okDB(o)){setDB(o);V.t="home";render()}}catch(e){}});
+let NAV=V.t+"|"+V.s;
+try{if(V.t==="det"){history.replaceState({t:"home",s:1},"");history.pushState({t:V.t,s:V.s},"")}else history.replaceState({t:V.t,s:V.s},"")}catch(e){}
+window.addEventListener("popstate",e=>{const q=e.state||{t:"home",s:1};V.t=!cur()?"onb":(q.t==="onb"?"home":q.t);V.s=q.s||V.s;NAV=V.t+"|"+V.s;M=null;render()});
+idbGet("qmeta").then(j=>{try{const h=JSON.parse(j);if(Array.isArray(h)&&h.length===114){H=h;render(1)}}catch(e){}});
 idbGet("qpages").then(j=>{try{const p=JSON.parse(j);if(Array.isArray(p)&&p.length===114){P=p;render(1)}}catch(e){}});
 idbGet("quran").then(j=>{try{const q=JSON.parse(j);if(Array.isArray(q)&&q.length===114){Q=q;render(1)}}catch(e){}});
 if("serviceWorker" in navigator)try{navigator.serviceWorker.register("sw.js").catch(()=>{})}catch(e){}
