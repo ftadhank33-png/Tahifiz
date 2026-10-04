@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#064E43"><link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><meta name="theme-color" content="#064E43"><link rel="apple-touch-icon" href="icon-192.png">
 <title>بُستاننا — رحلة العائلة مع كتاب الله</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Amiri+Quran&display=swap" rel="stylesheet">
 <style>
@@ -63,6 +63,8 @@ textarea{width:100%;min-height:110px;border-radius:12px;border:1px solid var(--b
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:grid;place-items:center;padding:20px}
 .ov .c{max-width:340px;display:grid;gap:14px}.ov .row{justify-content:flex-end}
 #toast{position:fixed;top:calc(env(safe-area-inset-top,0px) + 70px);left:50%;transform:translateX(-50%);background:var(--pri);color:#fff;border:1px solid var(--gold);padding:8px 20px;border-radius:99px;font-size:calc(13px*var(--f,1));z-index:50;display:none}
+.logo svg{width:68%;height:68%}
+.hl{width:36px;height:36px;display:block;flex:none;border-radius:50%;background:rgba(255,255,255,.08)}.hl svg{width:100%;height:100%;padding:4px}
 .cp{text-align:center;font-size:calc(12px*var(--f,1));color:var(--mut);padding:8px 4px}
 .warn{background:#fff3cd;color:#5c4400;border-radius:12px;padding:10px 14px;font-size:calc(13px*var(--f,1))}
 </style>
@@ -80,6 +82,7 @@ const fmt=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d).toL
 const bar=p=>`<div class="bar"><i style="width:${Math.min(100,p)}%"></i></div>`;
 const def=()=>({on:0,r:{},plan:5,act:{},last:null});
 const esc=x=>String(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const LG='<svg viewBox="100 100 312 312"><g fill="#F8F6EF"><path d="M256 396C226 368 170 362 126 376L126 330C170 316 226 322 256 350Z"/><path d="M256 396C286 368 342 362 386 376L386 330C342 316 286 322 256 350Z"/></g><path d="M256 350L256 396" stroke="#C5A059" stroke-width="6"/><g fill="none" stroke="#C5A059" stroke-width="15" stroke-linecap="round"><path d="M256 342L256 214"/><path d="M256 296C244 274 224 262 208 244"/><path d="M256 296C268 274 288 262 304 244"/></g><g fill="#F8F6EF"><circle cx="256" cy="158" r="54"/><circle cx="194" cy="226" r="38"/><circle cx="318" cy="226" r="38"/></g><g fill="#0D7A68"><circle cx="256" cy="158" r="17"/><circle cx="194" cy="226" r="12"/><circle cx="318" cy="226" r="12"/></g></svg>';
 const uid=()=>"p"+Date.now().toString(36)+Math.floor(Math.random()*1e4).toString(36);
 const mk=nm=>({n:nm,pin:"",d:def()});
 let mem=false;
@@ -211,9 +214,9 @@ function render(keep){fz();
  if(V.t==="det"&&cur()&&S.lo!==V.s){S.lo=V.s;S.rc=[V.s].concat((S.rc||[]).filter(x=>x!==V.s)).slice(0,5);save()}
  if(!keep&&nk()!==NAV){NAV=nk();try{history.pushState(hs(),"")}catch(e){}}const y=scrollY,st=stats(),onb=V.t==="onb";
  let h="";
- if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">📖</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
+ if(LK){const o=Object.keys(DB.ps).filter(i=>i!==DB.cur).map(i=>`<button class="b" data-x="sw" data-id="${i}">${esc(DB.ps[i].n)}${DB.ps[i].pin?" 🔒":""}</button>`).join("");h=`<main><div class="onb"><div class="logo">🔒</div><h1>${esc(cur().n)}</h1><input class="q" id="lp" type="password" inputmode="numeric" placeholder="أدخل الرمز" style="max-width:240px;text-align:center"><button class="b bp big" data-x="pu">فتح</button>${o?"<small>أو انتقل إلى:</small>"+o:""}</div></main>`}else if(onb)h=`<main><div class="onb"><div class="logo">${LG}</div><h1>بُستاننا</h1><b class="gd">رحلة العائلة مع كتاب الله</b><p class="mu">تتبّع حفظك آيةً آيةً، وراجع محفوظك بجدول مراجعة تلقائي.</p><input class="q" id="nm" placeholder="اسمك" maxlength="20" style="max-width:260px;text-align:center"><button class="b bp big" data-x="start">ابدأ رحلتك المباركة</button><footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></div></main>`;
  else{const tabs=[["home","🏠","الرئيسية"],["sur","📚","الفهرس"],["rev","🔁","المراجعة"],["plan","🗓️","الخطة"],["sta","📊","التقارير"]],ct=(V.t==="det"||V.t==="rg")?"sur":(V.t==="quiz"||V.t==="hal")?"home":V.t;
-  h=`<header><div class="hi"><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
+  h=`<header><div class="hi"><div class="row" style="gap:10px;justify-content:flex-start"><span class="hl">${LG}</span><div><h1>بُستاننا</h1><small>رحلة العائلة مع كتاب الله</small></div></div><div class="row"><button class="pill" data-x="go" data-v="fam">👤 ${esc(cur().n)}</button><span class="pill">🔥 ${n(st.c)} أيام</span><button class="ib" data-x="go" data-v="set" aria-label="الإعدادات">⚙️</button></div></div></header>
   <main>${mem?'<div class="warn">التخزين غير متاح في هذا المتصفح، لن تبقى بياناتك بعد الإغلاق. استخدم التصدير من الإعدادات.</div>':""}${view(st)}<footer class="cp">© ٢٠٢٦ أبو بكر — بُستاننا: رحلة العائلة مع كتاب الله. جميع الحقوق محفوظة.</footer></main>
   <nav><div class="ni">${tabs.map(([k,i,l])=>`<button class="${ct===k?"on":""}" data-x="go" data-v="${k}"><span>${i}</span>${l}</button>`).join("")}</div></nav>`}
  if(M&&M.ap)h+=`<div class="ov"><div class="c"><b>رمز الأب مطلوب لإدارة الأسرة</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="رمز الأب"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="apu">تأكيد</button></div></div></div>`;else if(M&&M.pin)h+=`<div class="ov"><div class="c"><b>رمز الدخول (٤ إلى ٨ أرقام)</b><input class="q" id="pi" type="password" inputmode="numeric" placeholder="اتركه فارغًا لإزالة الرمز"><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bp" data-x="pset">حفظ</button></div></div></div>`;else if(M)h+=`<div class="ov"><div class="c"><div>${M.msg}</div><div class="row"><button class="b" data-x="no">إلغاء</button><button class="b bd" data-x="yes">تأكيد</button></div></div></div>`;
